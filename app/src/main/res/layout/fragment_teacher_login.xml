@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".Logfiles.TeacherLogin">
+
+
+    <LinearLayout
+        android:id="@+id/tc_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="Teacher Sign In"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tc_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tc_heading"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="35sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical">
+
+        <!--        Email-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Email"
+            android:labelFor="@id/edtTcEmail" />
+
+        <EditText
+            android:id="@+id/edtTcEmail"
+            android:hint=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="20"/>
+
+        <!--        Password-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="PassWord"
+            android:labelFor="@id/edtTcPassword" />
+
+        <EditText
+            android:id="@+id/edtTcPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="20"/>
+
+        <!--        Subbmit-->
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_marginTop="26sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:textSize="23sp"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+</RelativeLayout>
