@@ -21,13 +21,14 @@
         android:orientation="vertical">
 
         <Button
+
             android:id="@+id/btnGlobalSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            android:background="#7B6D6D"
+            android:background="@drawable/round_button"
             android:text="Sign up" />
 
         <Button
