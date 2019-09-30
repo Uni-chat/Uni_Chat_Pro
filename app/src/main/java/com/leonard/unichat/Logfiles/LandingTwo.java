@@ -2,6 +2,7 @@ package com.leonard.unichat.Logfiles;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -144,33 +145,8 @@ public class LandingTwo extends Fragment {
             }
         });
     }
-
-
 }
 
-
-
-
-
-//    protected void replaceLoginFragment () {
-//
-//        fragmentManager.beginTransaction()
-//                .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-//                .replace(R.id.frameContainer, new LogIn(), Utils.LogIn).commit();
-//    }
-
-//    @Override
-//    public void onBackPressed () {
-//        Fragment SignUp_fragment = fragmentManager.findFragmentByTag(Utils.SignUp);
-//        Fragment Confirmation_fragment = fragmentManager.findFragmentByTag(Utils.Confirmation);
-//
-//        if (SignUp_fragment != null)
-//            replaceLoginFragment();
-//        else if (Confirmation_fragment != null)
-//            replaceLoginFragment();
-//        else
-//            super.onBackPressed();
-//    }
 
 
 
