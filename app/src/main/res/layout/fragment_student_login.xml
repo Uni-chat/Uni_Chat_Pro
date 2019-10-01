@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@drawable/background4"
+    android:background="@drawable/backgroundgradient"
     tools:context=".Logfiles.StudentLogin">
 
 
@@ -72,6 +72,17 @@
             android:layout_height="44dp"
             android:background="@color/white"
             android:ems="22"/>
+
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="10dp"
+            android:text="Remember Password"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:checked="true"
+            />
 
         <!--        Subbmit-->
 

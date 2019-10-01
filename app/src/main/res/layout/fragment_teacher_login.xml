@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@drawable/backgroundgradient"
     tools:context=".Logfiles.TeacherLogin">
 
 
@@ -20,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
+            android:textColor="@color/white"
             android:text="Teacher Sign In"/>
 
 
@@ -43,15 +45,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:textColor="@color/white"
             android:text="Email"
             android:labelFor="@id/edtTcEmail" />
 
         <EditText
             android:id="@+id/edtTcEmail"
-            android:hint=""
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="20"/>
+            android:layout_height="44dp"
+            android:background="@color/white"
+            android:ems="22"/>
 
         <!--        Password-->
 
@@ -59,14 +62,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:textColor="@color/white"
             android:text="PassWord"
             android:labelFor="@id/edtTcPassword" />
 
         <EditText
             android:id="@+id/edtTcPassword"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="20"/>
+            android:layout_height="44dp"
+            android:background="@color/white"
+            android:ems="22"/>
+
+
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="10dp"
+            android:text="Remember Password"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:checked="true"
+            />
 
         <!--        Subbmit-->
 
@@ -77,6 +94,10 @@
             android:layout_height="wrap_content"
             android:text="Sign In"
             android:textSize="23sp"
+            android:background="@drawable/round_button"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:ems="22"
             android:textAllCaps="false"/>
     </LinearLayout>
 

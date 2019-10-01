@@ -3,4 +3,21 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sng_in">Sign In</string>
+    <string name="sng_up">Sign Up</string>
+    <string name="std_swt">Student</string>
+    <string name="st_admn">ST Admin</string>
+    <string name="tc">Teacher</string>
+    <string name="std_admn_sgn_in">Student Admin Sign In</string>
+    <string name="">Teacher</string>
+    <string name="">Teacher</string>
+    <string name="">Teacher</string>
+    <string name="">Teacher</string>
+    <string name="">Teacher</string>
+    <string name="">Teacher</string>
+    <string name="">Teacher</string>
+    <string name="">Teacher</string>
+    <string name="">Teacher</string>
+
+
 </resources>
