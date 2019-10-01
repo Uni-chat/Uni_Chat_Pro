@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -12,6 +12,30 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="materials_bit_change" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Materials Input design change -->
+        <item name="boxBackgroundColor">@color/mtrl_filled_background_color</item>
+        <item name="boxStrokeColor">@color/mtrl_filled_stroke_color</item>
+        <item name="boxCornerRadiusTopStart">15sp</item>
+        <item name="boxCornerRadiusTopEnd">15sp</item>
+        <item name="boxCornerRadiusBottomStart">15sp</item>
+        <item name="boxCornerRadiusBottomEnd">15sp</item>
+    </style>
+
+    <style name="txt_appeerances_color_change" parent="Base.TextAppearance.AppCompat.Medium">
+
+        <!-- Materials Input design change -->
+        <item name="android:textColor">@color/txt_appens</item>
+    </style>
+
+    <style name="check_box_design" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:buttonTint" tools:targetApi="lollipop">@color/chkbox_unmark</item>
+        <item name="android:textColorSecondary" tools:targetApi="lollipop">@color/chkbox_mark</item>
+
+
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

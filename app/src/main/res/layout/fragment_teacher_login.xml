@@ -26,6 +26,9 @@
 
     </LinearLayout>
 
+
+
+
     <LinearLayout
         android:id="@+id/tc_details"
         android:layout_width="match_parent"
@@ -37,46 +40,85 @@
         android:layout_marginEnd="20dp"
         android:orientation="vertical">
 
-        <!--        Email-->
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Email"
-            android:labelFor="@id/edtTcEmail" />
-
-        <EditText
-            android:id="@+id/edtTcEmail"
-            android:hint=""
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="20"/>
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            style="@style/materials_bit_change"
+            android:layout_margin="5sp">
+
+            <AutoCompleteTextView
+                android:id="@+id/edtTcEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint=" Enter Your Email "
+                android:textColor="#FFFFFF"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!--        Password-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="PassWord"
-            android:labelFor="@id/edtTcPassword" />
-
-        <EditText
-            android:id="@+id/edtTcPassword"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="20"/>
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            app:passwordToggleEnabled="true"
+            android:layout_margin="5sp">
 
-        <!--        Subbmit-->
+            <AutoCompleteTextView
+                android:id="@+id/logPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint=" Enter Password "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:inputType="textPassword"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/rememberChechBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/check_box_design"
+                android:textColor="#FFEB3B"
+                android:textStyle="bold"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text=" Remember Me "/>
+
+        <TextView
+            android:id="@+id/forgtPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text=" Don't you remember your password ? "/>
 
         <Button
-            android:id="@+id/button2"
-            android:layout_marginTop="26sp"
-            android:layout_width="wrap_content"
+            android:id="@+id/signInValue"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/autotxtdesign"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="20dp"
             android:text="Sign In"
-            android:textSize="23sp"
             android:textAllCaps="false"/>
     </LinearLayout>
 
