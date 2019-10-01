@@ -22,8 +22,8 @@ public class LandingPage extends AppCompatActivity {
 
         if(savedInstanceState == null) {
 
-            fragmentManager.beginTransaction().replace(R.id.frameContainer, new LandingTwo(),
-                    Utils.LandingTwo).commit();
+            fragmentManager.beginTransaction().replace(R.id.frameContainer, new SplashToGo(),
+                    Utils.SplashToGo).commit();
         }
 
 

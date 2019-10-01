@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/screen_splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".Logfiles.SplashToGo">
+
+    <LinearLayout
+        android:id="@+id/llSplashLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical"
+        android:layout_above="@+id/btnLayout">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imgSplash"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="120dp"-->
+<!--            android:visibility="invisible"-->
+<!--            android:src="@drawable/get_pic_reset"/>-->
+
+        <View
+            android:id="@+id/imgSplashRotation"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/get_pic_reset"
+            android:layout_toLeftOf="@id/imgSplash"
+            android:layout_alignWithParentIfMissing="true"/>
+        <View
+            android:id="@+id/imgSplash"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/get_pic_reset"
+            android:layout_alignParentRight="true"/>
+
+
+        <TextView
+            android:id="@+id/txtSplash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="35dp"
+            android:textColor="@color/light_yellow"
+            android:text="Uni Chat"
+            android:textStyle="bold"
+            android:textAllCaps="true"/>
+    </LinearLayout>
+</RelativeLayout>
