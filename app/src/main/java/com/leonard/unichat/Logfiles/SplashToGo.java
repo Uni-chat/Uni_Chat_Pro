@@ -31,9 +31,8 @@ public class SplashToGo extends Fragment {
     private Timer timer;
     private int i = 0;
     private TextView txtSplash;
-    //private ImageView imgSplash;
     private Animation fromTop, fromBottom, rotationImage;
-    final long period = 150;
+    final long period = 100;
     private static FragmentManager fragmentManager;
 
     public SplashToGo() {
@@ -65,12 +64,10 @@ public class SplashToGo extends Fragment {
         fromBottom = AnimationUtils.loadAnimation(getActivity(), R.anim.frombottom);
         rotationImage = AnimationUtils.loadAnimation(getActivity(), R.anim.rotationimage);
 
-        vwImgRotation.setVisibility(View.GONE);
-
-        vwImgSplash.setAnimation(fromTop);
-
-
+        //vwImgRotation.setVisibility(View.GONE);
         vwImgRotation.setAnimation(rotationImage);
+        vwImgSplash.setVisibility(View.GONE);
+        //vwImgSplash.setAnimation(fromTop);
 
         txtSplash.setAnimation(fromBottom);
 
@@ -83,24 +80,23 @@ public class SplashToGo extends Fragment {
             @Override
             public void run() {
                 //this repeats every 100 ms
-                if (i<145){
+                if (i<98){
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            if ( i > 50) {
-
-                                vwImgSplash.setVisibility(View.GONE);
-                                vwImgRotation.setVisibility(View.VISIBLE);
-
-
-                            }
+//                            if ( i > 50) {
+//
+//                               //vwImgSplash.setVisibility(View.GONE);
+//                              // vwImgRotation.setVisibility(View.VISIBLE);
+//
+//                            }
 
 
                         }
 
                     });
-                    i=i+2;
+                    i=i+3;
                 }else{
                     //closing the timer
                     timer.cancel();
