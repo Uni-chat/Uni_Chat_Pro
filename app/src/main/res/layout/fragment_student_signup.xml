@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroundgradient"
     tools:context=".Logfiles.StudentSignup">
 
     <ScrollView
@@ -28,9 +29,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
+                    android:textColor="@color/white"
                     android:textSize="24sp"
                     android:text="Student Registration"/>
-
 
 
             </LinearLayout>
@@ -53,13 +54,15 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:text="Name"
+                    android:textColor="@color/white"
                     android:labelFor="@id/edtTcName" />
 
                 <EditText
                     android:id="@+id/edtTcName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"/>
+                    android:layout_height="44dp"
+                    android:background="@color/white"
+                    android:ems="22"/>
 
                 <!--   Dept     -->
 
@@ -67,13 +70,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
                     android:text="Department"
                     android:labelFor="@id/edtTcDepartment" />
                 <EditText
                     android:id="@+id/edtTcDepartment"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"/>
+                    android:layout_height="44dp"
+                    android:background="@color/white"
+                    android:ems="22"/>
 
                 <!--        ID-->
 
@@ -81,14 +86,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
                     android:text="Student's ID"
                     android:labelFor="@id/edtTcIdentification" />
 
                 <EditText
                     android:id="@+id/edtTcIdentification"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"/>
+                    android:layout_height="44dp"
+                    android:background="@color/white"
+                    android:ems="22" />
 
                 <!--        Email-->
 
@@ -96,14 +103,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
                     android:text="Email"
                     android:labelFor="@id/edtTcEmail" />
 
                 <EditText
                     android:id="@+id/edtTcEmail"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"/>
+                    android:layout_height="44dp"
+                    android:background="@color/white"
+                    android:ems="22"/>
 
                 <!--        Password-->
 
@@ -111,14 +120,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
                     android:text="PassWord"
                     android:labelFor="@id/edtTcPassword" />
 
                 <EditText
                     android:id="@+id/edtTcPassword"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"/>
+                    android:layout_height="44dp"
+                    android:background="@color/white"
+                    android:ems="22"/>
 
                 <!--Image Upload-->
 
@@ -126,13 +137,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
                     android:text="Image"
                     android:labelFor="@id/imgImageUpload" />
                 <EditText
                     android:id="@+id/imgImageUpload"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"/>
+                    android:layout_height="44dp"
+                    android:background="@color/white"
+                    android:ems="22"/>
             </LinearLayout>
 
             <LinearLayout
@@ -145,8 +158,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Create Account"
+                    android:background="@drawable/round_button"
                     android:textSize="23sp"
-                    android:textAllCaps="false"/>
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:ems="10"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
