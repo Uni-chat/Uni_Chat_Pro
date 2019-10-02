@@ -119,13 +119,14 @@
 
         <Button
             android:id="@+id/signInValue"
-            android:layout_width="320dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/autotxtdesign"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="20dp"
+            android:ems="13"
             android:text="Sign In"
             android:textAllCaps="false"/>
     </LinearLayout>
