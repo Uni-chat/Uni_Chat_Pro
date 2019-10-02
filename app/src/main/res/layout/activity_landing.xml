@@ -4,12 +4,12 @@
     android:layout_height="fill_parent"
     android:fillViewport="true"
     android:overScrollMode="never"
-    android:scrollbars="none"
-    android:background="@drawable/backgroundgradient">
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/background_color2">
 
 
         <FrameLayout

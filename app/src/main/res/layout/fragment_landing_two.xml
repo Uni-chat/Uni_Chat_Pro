@@ -5,9 +5,33 @@
     android:id="@+id/lySliderFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Logfiles.LandingTwo"
-    android:background="@drawable/backgroundgradient">
+    tools:context=".Logfiles.LandingTwo">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical"
+        android:layout_above="@+id/btnLayout">
+
+       <ImageView
+           android:layout_width="120dp"
+           android:layout_height="120dp"
+           android:src="@drawable/get_pic_reset"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="35dp"
+            android:textColor="@color/light_yellow"
+            android:text="Uni Chat"
+            android:textStyle="bold"
+            android:textAllCaps="true"/>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/btnLayout"
         android:layout_width="match_parent"
@@ -26,10 +50,10 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/round_button"
+            android:background="@drawable/autotxtdesign"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            android:text="@string/sng_up"
+            android:text="Sign up"
             android:textColor="@color/white"
             android:textSize="22dp"
             android:textStyle="bold" />
@@ -38,10 +62,11 @@
             android:id="@+id/btnGlobalSignIn"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_button"
+            android:background="@drawable/autotxtdesign"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            android:text="@string/sng_in"
+            android:text="Sign In"
+            android:elevation="10dp"
             android:textColor="@color/white"
             android:textSize="22dp"
             android:textStyle="bold" />
@@ -67,7 +92,7 @@
             android:padding="5dp"
             android:background="@drawable/round_button"
             android:textColor="@color/white"
-            android:text="@string/std_swt" />
+            android:text="Student" />
         <Switch
             android:id="@+id/swStudentAdmin"
             android:layout_width="0dip"
@@ -77,7 +102,7 @@
             android:padding="5dp"
             android:background="@drawable/round_button"
             android:textColor="@color/white"
-            android:text="@string/st_admn" />
+            android:text="ST Admin" />
         <Switch
             android:id="@+id/swTeacher"
             android:layout_width="0dip"
@@ -87,7 +112,7 @@
             android:padding="5dp"
             android:background="@drawable/round_button"
             android:textColor="@color/white"
-            android:text="@string/tc" />
+            android:text="Teacher" />
     </LinearLayout>
 
 </RelativeLayout>
