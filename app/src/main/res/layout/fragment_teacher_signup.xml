@@ -4,169 +4,237 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundgradient"
+    android:gravity="center"
     tools:context=".Logfiles.TeacherSignup">
 
-    <ScrollView
+
+    <LinearLayout
+        android:id="@+id/tc_heading"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/get_pic_reset">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        </ImageView>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Teacher's Registration"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
 
-            <LinearLayout
-                android:id="@+id/tc_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:textSize="24sp"
-                    android:text="Teacher Registration"
-                    android:textColor="@color/white"/>
+    </LinearLayout>
 
 
 
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/tc_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tc_heading"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="35sp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/tc_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tc_heading"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="15sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical">
 
-                <!--        Name-->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:text="Name"
-                    android:labelFor="@id/edtTcName" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            android:layout_margin="5sp">
 
-                <EditText
-                    android:id="@+id/edtTcName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
-                    android:background="@color/white"
-                    android:ems="22"/>
-
-                <!--   Dept     -->
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:text="Department"
-                    android:labelFor="@id/edtTcDepartment" />
-                <EditText
-                    android:id="@+id/edtTcDepartment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
-                    android:ems="22"
-                    android:background="@color/white"/>
-
-                <!--        ID-->
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:text="Teacher's ID"
-                    android:labelFor="@id/edtTcIdentification" />
-
-                <EditText
-                    android:id="@+id/edtTcIdentification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
-                    android:ems="22"
-                    android:background="@color/white"/>
-
-                <!--        Email-->
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:text="Email"
-                    android:labelFor="@id/edtTcEmail" />
-
-                <EditText
-                    android:id="@+id/edtTcEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
-                    android:background="@color/white"
-                    android:ems="22"/>
-
-                <!--        Password-->
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:text="PassWord"
-                    android:labelFor="@id/edtTcPassword" />
-
-                <EditText
-                    android:id="@+id/edtTcPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
-                    android:background="@color/white"
-                    android:ems="22"/>
-
-                <!--Image Upload-->
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:text="Image"
-                    android:labelFor="@id/imgImageUpload" />
-                <EditText
-                    android:id="@+id/imgImageUpload"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
-                    android:background="@color/white"
-                    android:ems="22"/>
-            </LinearLayout>
-
-            <LinearLayout
+            <AutoCompleteTextView
+                android:id="@+id/edtTcEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26sp"
-                android:layout_gravity="center_horizontal">
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Create Account"
-                    android:textSize="23sp"
-                    android:background="@drawable/round_button"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:ems="10"/>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+                android:ems="15"
+                android:hint=" Enter Your Name "
+                android:textColor="#FFFFFF"
+                android:inputType="textEmailAddress"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            android:layout_margin="5sp">
+
+            <AutoCompleteTextView
+                android:id="@+id/logPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint=" Enter Your ID "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:inputType="number"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            android:layout_margin="5sp">
+
+            <AutoCompleteTextView
+                android:id="@+id/logPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint=" Enter Email "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:inputType="textEmailAddress"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            app:passwordToggleEnabled="true"
+            android:layout_margin="5sp">
+
+            <AutoCompleteTextView
+                android:id="@+id/logPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint=" Enter Password "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:inputType="textPassword"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            app:passwordToggleEnabled="true"
+            android:layout_margin="5sp">
+
+            <AutoCompleteTextView
+                android:id="@+id/logPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint=" Confirm Password "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:inputType="textPassword"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            android:layout_margin="5sp">
+
+            <AutoCompleteTextView
+                android:id="@+id/logPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint=" Your Department "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:inputType="textPassword"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            android:layout_margin="5sp">
+
+            <AutoCompleteTextView
+                android:id="@+id/logPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint=" Image Upload "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:inputType="textPassword"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/signInValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/autotxtdesign"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:ems="13"
+            android:text="Create Account"
+            android:textAllCaps="false"/>
+    </LinearLayout>
 
 </RelativeLayout>
