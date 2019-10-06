@@ -17,9 +17,8 @@ import com.leonard.unichat.R;
 
 public class TeacherLogin extends Fragment {
 
-
-    private String txtPassColor;
     private View view;
+    private String txtPassColor;
     private TextView forgtPass;
 //android:text=" Don't you remember your password ? "
     public TeacherLogin() {

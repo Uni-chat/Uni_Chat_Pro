@@ -1,5 +1,7 @@
 package com.leonard.unichat.Logfiles;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,18 +12,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Switch;
 
 import com.leonard.unichat.R;
 import com.leonard.unichat.Utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 
 public class LandingTwo extends Fragment {
 
-   private View view;
-   private Button btnGlobalSignup, btnGlobalSignin ;
-   private Switch switchTeacher, switchStudentAdmin, switchStudent;
-   private static FragmentManager fragmentManager;
+    private View view;
+    //private EditText dateOfBirthPicker;
+    private Calendar myCalender;
+    private Button btnGlobalSignup, btnGlobalSignin ;
+    private Switch switchTeacher, switchStudentAdmin, switchStudent;
+    private static FragmentManager fragmentManager;
 
     public LandingTwo() {
         // Required empty public constructor
@@ -47,6 +57,8 @@ public class LandingTwo extends Fragment {
         switchTeacher = (Switch) view.findViewById(R.id.swTeacher);
         switchStudentAdmin = (Switch) view.findViewById(R.id.swStudentAdmin);
         switchStudent = (Switch) view.findViewById(R.id.swStudent);
+
+        //dateOfBirthPicker = (EditText) view.findViewById(R.id.dateOfBirthPicker);
 
         fragmentManager = getActivity().getSupportFragmentManager();
 
@@ -145,6 +157,46 @@ public class LandingTwo extends Fragment {
             }
         });
     }
+
+    // Date Picker Public Method For All Fragment
+    public void birthDatePicker (final EditText edtDateGlobalSignup, final Activity datePickerFragmentMoving) {
+
+        myCalender = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                myCalender.set(Calendar.YEAR, year);
+                myCalender.set(Calendar.MONTH, month);
+                myCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                //updateLabel();
+                String myFormat = "dd/MM/yyyy";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat( myFormat, Locale.US );
+                edtDateGlobalSignup.setText(simpleDateFormat.format(myCalender.getTime()));
+            }
+        };
+
+        edtDateGlobalSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog( datePickerFragmentMoving, date, myCalender.get(Calendar.YEAR),
+                        myCalender.get(Calendar.MONTH), myCalender.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+    }
+
+//    private void updateLabel () {
+//
+//        String myFormat = "dd/MM/yyyy";
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat( myFormat, Locale.US );
+//        edtDateGlobalSignup.setText(simpleDateFormat.format(myCalender.getTime()));
+//    }
+
+
+
 }
 
 

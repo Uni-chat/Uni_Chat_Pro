@@ -6,16 +6,20 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.leonard.unichat.R;
 
 
 public class StudentLogin extends Fragment {
 
-
+    private View view;
+    private String txtPassColor;
+    private TextView forgtPass;
     public StudentLogin() {
         // Required empty public constructor
     }
@@ -26,7 +30,17 @@ public class StudentLogin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student_login, container, false);
+        view = inflater.inflate(R.layout.fragment_student_login, container, false);
+        initViews();
+        return view;
+    }
+
+    private void initViews () {
+
+        forgtPass = (TextView) view.findViewById(R.id.forgtPass);
+
+        txtPassColor = "<font color = white > Don't you remember your </font> <font color = yellow > password ? </font>";
+        forgtPass.setText(Html.fromHtml(txtPassColor));
     }
 
 }

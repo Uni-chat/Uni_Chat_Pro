@@ -57,7 +57,7 @@
             android:layout_margin="5sp">
 
             <AutoCompleteTextView
-                android:id="@+id/edtTcEmail"
+                android:id="@+id/edtTcName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="15"
@@ -81,7 +81,7 @@
             android:layout_margin="5sp">
 
             <AutoCompleteTextView
-                android:id="@+id/logPass"
+                android:id="@+id/edtTcID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="15"
@@ -106,7 +106,7 @@
             android:layout_margin="5sp">
 
             <AutoCompleteTextView
-                android:id="@+id/logPass"
+                android:id="@+id/edtTcEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="15"
@@ -132,7 +132,7 @@
             android:layout_margin="5sp">
 
             <AutoCompleteTextView
-                android:id="@+id/logPass"
+                android:id="@+id/edtTcPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="15"
@@ -158,7 +158,7 @@
             android:layout_margin="5sp">
 
             <AutoCompleteTextView
-                android:id="@+id/logPass"
+                android:id="@+id/edtTcPassConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="15"
@@ -183,7 +183,36 @@
             android:layout_margin="5sp">
 
             <AutoCompleteTextView
-                android:id="@+id/logPass"
+                android:id="@+id/dateOfBirthPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textColorHighlight="#0C0FF7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="13sp"
+                android:inputType="date"
+                android:hint="Date of Birth "
+                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                android:clickable="true"
+                android:editable="false"
+                android:focusable="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColorHint="#FFEB3B"
+            app:hintTextAppearance="@style/txt_appeerances_color_change"
+            style="@style/materials_bit_change"
+            android:layout_margin="5sp">
+
+            <AutoCompleteTextView
+                android:id="@+id/edtTcDepartment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="15"
@@ -198,33 +227,9 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColorHint="#FFEB3B"
-            app:hintTextAppearance="@style/txt_appeerances_color_change"
-            style="@style/materials_bit_change"
-            android:layout_margin="5sp">
-
-            <AutoCompleteTextView
-                android:id="@+id/logPass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="15"
-                android:hint=" Image Upload "
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:inputType="textPassword"
-                android:textColorHighlight="#0C0FF7"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:padding="13sp"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/signInValue"
+            android:id="@+id/signUpValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

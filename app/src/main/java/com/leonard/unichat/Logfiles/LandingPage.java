@@ -30,6 +30,8 @@ public class LandingPage extends AppCompatActivity {
     }
 
 
+
+
     protected void replaceFragment () {
 
         fragmentManager.beginTransaction().replace(R.id.frameContainer, new LandingTwo(),

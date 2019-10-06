@@ -6,9 +6,11 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.leonard.unichat.R;
 
@@ -22,6 +24,12 @@ import com.leonard.unichat.R;
  // Use the {@link StudentAdminLogin#newInstance} factory method to
  //create an instance of this fragment.//
 public class StudentAdminLogin extends Fragment {
+
+
+    private View view;
+    private String txtPassColor;
+    private TextView forgtPass;
+
   /*  // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -68,7 +76,9 @@ public class StudentAdminLogin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student_admin_login, container, false);
+        view = inflater.inflate(R.layout.fragment_student_admin_login, container, false);
+        initViews();
+        return view;
     }
 
     /*// TODO: Rename method, update argument and hook method into UI event
@@ -110,4 +120,12 @@ public class StudentAdminLogin extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }*/
+
+    private void initViews () {
+
+      forgtPass = (TextView) view.findViewById(R.id.forgtPass);
+
+      txtPassColor = "<font color = white > Don't you remember your </font> <font color = yellow > password ? </font>";
+      forgtPass.setText(Html.fromHtml(txtPassColor));
+    }
 }
