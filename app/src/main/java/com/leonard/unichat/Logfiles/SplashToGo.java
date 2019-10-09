@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.leonard.unichat.Messages.MainActivity;
 import com.leonard.unichat.R;
 import com.leonard.unichat.Utils;
 
@@ -103,6 +104,9 @@ public class SplashToGo extends Fragment {
                     fragmentManager.beginTransaction().replace(R.id.frameContainer, new LandingTwo(),
                             Utils.LandingTwo).commit();
                     // close this activity
+
+//                    Intent myIntent = new Intent(getActivity(), MainActivity.class);
+//                    startActivity(myIntent);
                 }
             }
         }, 0, period);
