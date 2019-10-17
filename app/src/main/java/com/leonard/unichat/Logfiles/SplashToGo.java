@@ -18,9 +18,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.leonard.unichat.Messages.MainActivity;
+
 import com.leonard.unichat.R;
 import com.leonard.unichat.Utils;
+import com.leonard.unichat.Messages.MainActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -101,12 +102,12 @@ public class SplashToGo extends Fragment {
                 }else{
                     //closing the timer
                     timer.cancel();
-                    fragmentManager.beginTransaction().replace(R.id.frameContainer, new LandingTwo(),
-                            Utils.LandingTwo).commit();
+                    //fragmentManager.beginTransaction().replace(R.id.frameContainer, new LandingTwo(),
+                     //       Utils.LandingTwo).commit();
                     // close this activity
 
-//                    Intent myIntent = new Intent(getActivity(), MainActivity.class);
-//                    startActivity(myIntent);
+                   Intent myIntent = new Intent(getActivity(), MainActivity.class);
+                   startActivity(myIntent);
                 }
             }
         }, 0, period);

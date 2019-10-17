@@ -5,7 +5,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabItem;
@@ -68,5 +71,40 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.optoins_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+
+            case R.id.menu_profile_options :
+
+                Toast.makeText(MainActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.manu_settings_options :
+
+                Toast.makeText(MainActivity.this, "Settings Selected", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.menu_log_out_options :
+
+                Toast.makeText(MainActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+        return true;
+
     }
 }

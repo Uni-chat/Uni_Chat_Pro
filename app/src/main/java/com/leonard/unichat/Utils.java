@@ -1,6 +1,6 @@
 package com.leonard.unichat;
 
-public class Utils {
+public  class  Utils {
 
     public static final String LandingTwo = "Landing_Fragment";
     public static final String StudentAdminSignin = "Student_admin_sign_in";
