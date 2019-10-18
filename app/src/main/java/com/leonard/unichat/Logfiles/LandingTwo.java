@@ -67,7 +67,6 @@ public class LandingTwo extends Fragment {
 
         fragmentManager = getActivity().getSupportFragmentManager();
 
-
         switchStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,8 +227,12 @@ public class LandingTwo extends Fragment {
 
     }
 
-
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        
+        stdItemEnable();
+    }
 }
 
 
