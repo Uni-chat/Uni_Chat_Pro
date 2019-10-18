@@ -11,4 +11,16 @@
     <string name="std_admn_sgn_in">Student Admin Sign In</string>
 
 
+    <string name="spin_prompt">Please Select Your Department</string>
+    <string-array name="dept_name_arrays">
+        <item>CSE</item>
+        <item>EEE</item>
+        <item>Civil</item>
+        <item>English</item>
+        <item>BBA</item>
+        <item>Hotel and Tourism</item>
+        <item>Artechitucture</item>
+    </string-array>
+
+
 </resources>

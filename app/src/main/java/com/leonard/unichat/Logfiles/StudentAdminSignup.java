@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Spinner;
 
 import com.leonard.unichat.R;
 
@@ -17,6 +18,7 @@ import com.leonard.unichat.R;
 public class StudentAdminSignup extends Fragment {
 
     private View view;
+    private Spinner codeSpinner;
     private AutoCompleteTextView dateOfBirthPicker;
 
     public StudentAdminSignup() {
@@ -34,6 +36,7 @@ public class StudentAdminSignup extends Fragment {
 
         LandingTwo myLandingPageTwo = new LandingTwo();
         myLandingPageTwo.birthDatePicker( dateOfBirthPicker, getActivity());
+        myLandingPageTwo.spinnerDepartmentAdding(codeSpinner, getActivity());
 
         return view;
     }
@@ -41,6 +44,8 @@ public class StudentAdminSignup extends Fragment {
     private void initViews () {
 
         dateOfBirthPicker = (AutoCompleteTextView) view.findViewById(R.id.dateOfBirthPicker);
+        codeSpinner = (Spinner) view.findViewById(R.id.codeSpinner);
+
     }
 
 }

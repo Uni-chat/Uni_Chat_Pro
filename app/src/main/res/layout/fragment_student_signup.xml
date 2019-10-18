@@ -202,30 +202,29 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColorHint="#FFEB3B"
-            app:hintTextAppearance="@style/txt_appeerances_color_change"
-            style="@style/materials_bit_change"
-            android:layout_margin="5sp">
+        <RelativeLayout
+            android:id="@+id/spinnerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/spinner_design"
+            android:layout_marginStart="23sp"
+            android:layout_marginLeft="23sp"
+            android:layout_marginEnd="23sp"
+            android:layout_marginRight="23sp"
+            android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/edtStdDepartment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="15"
-                android:hint=" Your Department "
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:inputType="textPassword"
-                android:textColorHighlight="#0C0FF7"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:padding="13sp"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/codeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5sp"
+                android:layout_marginLeft="5sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:spinnerMode="dialog"
+                android:prompt="@string/spin_prompt"/>
+        </RelativeLayout>
 
         <Button
             android:id="@+id/signInValue"

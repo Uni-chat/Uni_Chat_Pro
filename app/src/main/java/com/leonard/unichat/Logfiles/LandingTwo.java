@@ -2,6 +2,7 @@ package com.leonard.unichat.Logfiles;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +12,14 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.leonard.unichat.R;
 import com.leonard.unichat.Utils;
@@ -194,6 +199,34 @@ public class LandingTwo extends Fragment {
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat( myFormat, Locale.US );
 //        edtDateGlobalSignup.setText(simpleDateFormat.format(myCalender.getTime()));
 //    }
+
+
+    public void spinnerDepartmentAdding(final Spinner deptpinner, final Activity spinFrgmntActivty) {
+
+        String [] departmentName = {"CSE", "EEE", "Civil", "English", "BBA", "Hotel and Tourism", "Artechitucture" };
+        ArrayAdapter <String> deptSpinAdapter = new ArrayAdapter<String>(spinFrgmntActivty, R.layout.spinner_view,
+                R.id.txtSpinnerCustom, departmentName);
+
+        deptpinner.setAdapter(deptSpinAdapter);
+        deptpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String code = String.valueOf(deptpinner.getSelectedItem());
+
+                Toast.makeText(spinFrgmntActivty, code, Toast.LENGTH_SHORT).show();
+
+                if (position == 0) {
+                    deptpinner.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
 
 
 
