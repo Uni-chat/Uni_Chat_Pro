@@ -40,6 +40,7 @@ public class LandingPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed () {
+        Fragment ForgetPassword = fragmentManager.findFragmentByTag(Utils.ForgetPassword);
         Fragment StudentAdminLogin = fragmentManager.findFragmentByTag(Utils.StudentAdminSignin);
         Fragment StudentAdminSignup = fragmentManager.findFragmentByTag(Utils.StudentAdminSignup);
         Fragment StudentLogin = fragmentManager.findFragmentByTag(Utils.StudentSignin);
@@ -47,7 +48,9 @@ public class LandingPage extends AppCompatActivity {
         Fragment TeacherLogin = fragmentManager.findFragmentByTag(Utils.TeacherSignin);
         Fragment TeacherSignup = fragmentManager.findFragmentByTag(Utils.TeacherSignup);
 
-        if (StudentAdminLogin != null)
+        if (ForgetPassword != null)
+            replaceFragment();
+        else if (StudentAdminLogin != null)
             replaceFragment();
         else if (StudentAdminSignup != null)
             replaceFragment();
