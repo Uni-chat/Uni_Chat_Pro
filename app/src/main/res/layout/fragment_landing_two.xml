@@ -102,7 +102,7 @@
             android:padding="5dp"
             android:background="@drawable/round_button"
             android:textColor="@color/white"
-            android:text="ST Admin" />
+            android:text="Admin" />
         <Switch
             android:id="@+id/swTeacher"
             android:layout_width="0dip"
