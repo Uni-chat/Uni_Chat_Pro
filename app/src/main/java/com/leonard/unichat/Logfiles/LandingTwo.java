@@ -2,10 +2,8 @@ package com.leonard.unichat.Logfiles;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -37,6 +35,7 @@ public class LandingTwo extends Fragment {
     private Button btnGlobalSignup, btnGlobalSignin ;
     private Switch switchTeacher, switchStudentAdmin, switchStudent;
     private static FragmentManager fragmentManager;
+    public static String deptType;
 
     public LandingTwo() {
         // Required empty public constructor
@@ -162,7 +161,7 @@ public class LandingTwo extends Fragment {
         });
     }
 
-    // Date Picker Public Method For All Fragment
+    // Registration Date Picker Public Method For All Fragment
     public void birthDatePicker (final EditText edtDateGlobalSignup, final Activity datePickerFragmentMoving) {
 
         myCalender = Calendar.getInstance();
@@ -200,23 +199,72 @@ public class LandingTwo extends Fragment {
 //    }
 
 
+    // Deptartment Type for Spinner and Department Wise Registration
     public void spinnerDepartmentAdding(final Spinner deptpinner, final Activity spinFrgmntActivty) {
 
-        String [] departmentName = {"CSE", "EEE", "Civil", "English", "BBA", "Hotel and Tourism", "Artechitucture" };
+        //String [] departmentName = getResources().getStringArray(R.array.dept_name_arrays);
+        String [] departmentName = {"CSE", "EEE", "Civil", "English", "BBA", "Hotel and Tourism", "Architecture" };
         ArrayAdapter <String> deptSpinAdapter = new ArrayAdapter<String>(spinFrgmntActivty, R.layout.spinner_view,
                 R.id.txtSpinnerCustom, departmentName);
 
         deptpinner.setAdapter(deptSpinAdapter);
+
+
         deptpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String code = String.valueOf(deptpinner.getSelectedItem());
 
-                Toast.makeText(spinFrgmntActivty, code, Toast.LENGTH_SHORT).show();
+                switch (position) {
 
-                if (position == 0) {
-                    deptpinner.setSelection(0);
+                    case 0:
+
+                        deptType = "CSE";
+                        break;
+
+                    case 1:
+
+                        deptType = "EEE";
+                        break;
+
+                    case 2:
+
+                        deptType = "Civil";
+                        break;
+
+                    case 3:
+
+                        deptType = "English";
+                        break;
+
+                    case 4:
+
+                        deptType = "BBA";
+                        break;
+
+                    case 5:
+
+                        deptType = "Hotel and Tourism";
+                        break;
+
+                    case 6:
+
+                        deptType = "Architecture";
+                        break;
+
                 }
+
+                // String code = String.valueOf(deptpinner.getSelectedItem());
+                //Toast.makeText(spinFrgmntActivty, code, Toast.LENGTH_SHORT).show();
+//                if (position == 0) {
+//                    codeSpinner.setSelection(0);
+//                }
+
+//                Object item = parent.getItemAtPosition(position);
+//                finalValues[0] = item.toString();
+//                if (item != null) {
+//                    Toast.makeText(spinFrgmntActivty, finalValues[0],
+//                            Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override
@@ -224,8 +272,9 @@ public class LandingTwo extends Fragment {
 
             }
         });
-
     }
+
+
 
     @Override
     public void onStart() {

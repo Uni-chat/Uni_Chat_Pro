@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "677591008482",
+    "firebase_url": "https://uni-chat-63538.firebaseio.com",
+    "project_id": "uni-chat-63538",
+    "storage_bucket": "uni-chat-63538.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677591008482:android:cc7b639d7c1995a0b80abb",
+        "android_client_info": {
+          "package_name": "com.leonard.unichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677591008482-61976tkrtn2hgpm806hj9isp7orgqhkl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc_oNPscOx4SUAbrvs8cOjTue9__Bs1zE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677591008482-61976tkrtn2hgpm806hj9isp7orgqhkl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

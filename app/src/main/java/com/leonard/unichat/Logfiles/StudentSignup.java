@@ -39,7 +39,7 @@ public class StudentSignup extends Fragment {
 
         LandingTwo myLandingPageTwo = new LandingTwo();
         myLandingPageTwo.birthDatePicker( dateOfBirthPicker, getActivity());
-        myLandingPageTwo.spinnerDepartmentAdding(codeSpinner, getActivity());
+        //myLandingPageTwo.spinnerDepartmentAdding(codeSpinner, getActivity());
         return view;
     }
 

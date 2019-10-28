@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.leonard.unichat.R;
 import com.leonard.unichat.Utils;
 
@@ -64,6 +69,21 @@ public class LandingPage extends AppCompatActivity {
             replaceFragment();
         else
             super.onBackPressed();
+    }
+
+    public static void fireBaseInitViews (Context context) {
+
+        FirebaseAuth firebaseAuth;
+        FirebaseAuth.AuthStateListener firebaseAuthListener;
+        FirebaseDatabase firebaseDatabaseInstance;
+        DatabaseReference databaseReference;
+
+        FirebaseApp.initializeApp(context);
+
+        firebaseDatabaseInstance = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabaseInstance.getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+
     }
 
 
