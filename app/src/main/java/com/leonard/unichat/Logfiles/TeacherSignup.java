@@ -1,6 +1,8 @@
 package com.leonard.unichat.Logfiles;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,9 +27,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.leonard.unichat.DatabaseOpenHelper;
+import com.leonard.unichat.Messages.MainActivity;
 import com.leonard.unichat.R;
+import com.leonard.unichat.UsersModel;
 
 import java.util.HashMap;
 
@@ -43,6 +52,10 @@ public class TeacherSignup extends Fragment {
     private FirebaseDatabase firebaseDatabaseInstance;
     private DatabaseReference databaseReference;
 
+    private DatabaseOpenHelper databaseOpenHelper;
+    private UsersModel usersModel;
+    private SQLiteDatabase sqLiteDatabase;
+
     //private String deptType;
 
     public TeacherSignup() {
@@ -57,6 +70,8 @@ public class TeacherSignup extends Fragment {
         view = inflater.inflate(R.layout.fragment_teacher_signup, container, false);
 
         initViews();
+
+        initObjects();
 
         LandingTwo myLandingPageTwo = new LandingTwo();
         myLandingPageTwo.birthDatePicker( dateOfBirthPicker, getActivity());
@@ -100,6 +115,13 @@ public class TeacherSignup extends Fragment {
         });
     }
 
+    private void initObjects () {
+
+        //databaseOpenHelper = new DatabaseOpenHelper(getActivity());
+        usersModel = new UsersModel();
+       // sqLiteDatabase = databaseOpenHelper.getReadableDatabase();
+    }
+
 
 
 
@@ -108,8 +130,8 @@ public class TeacherSignup extends Fragment {
 
         String name = edtTcName.getText().toString().trim();
         String ids = edtTcID.getText().toString().trim();
-        String email = edtTcEmail.getText().toString().trim();
-        String password = edtTcPass.getText().toString().trim();
+        final String email = edtTcEmail.getText().toString().trim();
+        final String password = edtTcPass.getText().toString().trim();
         String confirmPass = edtTcPassConfirm.getText().toString().trim();
         String dob = dateOfBirthPicker.getText().toString().trim();
         //String spinValue = codeSpinner.setSelection();
@@ -149,20 +171,55 @@ public class TeacherSignup extends Fragment {
 //            return;
 //        }
 
+//        if (!databaseOpenHelper.checkUserTeacherDOB(ids, dob)) {
+//
+//            Toast.makeText(getActivity(), "Date of Birth and ID not Match", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
 
-        // Main Inner Methods of Creating Account
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
+
+       // Query idUsersQuary = FirebaseDatabase.getInstance()
+         //       .getReference("Users/Teachers/" + LandingTwo.deptType).orderByChild("ID ").equalTo(ids);
+
+        Query idUsersQuary = FirebaseDatabase.getInstance()
+                .getReference("Users/Teachers/").orderByChild("ID ").equalTo(ids);
+
+
+
+
+
+        idUsersQuary.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(AuthResult authResult) {
-                saveUserData();
-                Toast.makeText(getActivity()," Registered ", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getChildrenCount() > 0) {
+
+                    Toast.makeText(getActivity(), "This id is Already Registered !", Toast.LENGTH_SHORT).show();
+
+                } else  {
+
+                    // Main Inner Methods of Creating Account
+                    firebaseAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    saveUserData();
+                                    Toast.makeText(getActivity()," Registered ", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "Failed to Register",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getActivity(), "Failed to Register",Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
@@ -177,18 +234,27 @@ public class TeacherSignup extends Fragment {
         String email = edtTcEmail.getText().toString().trim();
         String password = edtTcPass.getText().toString().trim();
         String dob = dateOfBirthPicker.getText().toString().trim();
-
-        HashMap < String , String> dataMap = new HashMap<String, String>();
-        dataMap.put("Name : ", name);
-        dataMap.put("ID : ", ids);
-        dataMap.put("Email : ", email);
-        dataMap.put("Password :", password);
-        dataMap.put("Date Of Birth :", dob);
+        String userType = "Teacher";
 
         final String userID = firebaseAuth.getCurrentUser().getUid();
 
+        HashMap < String , String> dataMap = new HashMap<String, String>();
+        dataMap.put("NANE ", name);
+        dataMap.put("ID ", ids);
+        dataMap.put("EMAIL ", email);
+        dataMap.put("PASSWORD ", password);
+        dataMap.put("DATE OF BIRTH ", dob);
+        dataMap.put("DEPT ", LandingTwo.deptType);
+        dataMap.put("USER_TYPE ", userType);
+        dataMap.put("USER_ID", userID);
+
+
+
+        //DatabaseReference currentUserInfo = FirebaseDatabase.getInstance()
+         //       .getReference("Users/Teachers/" + LandingTwo.deptType).child(userID);
+
         DatabaseReference currentUserInfo = FirebaseDatabase.getInstance()
-                .getReference("Users/Teachers/" + LandingTwo.deptType).child(userID);
+                .getReference("Users/Teachers/").child(userID);
 
         currentUserInfo.setValue(dataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

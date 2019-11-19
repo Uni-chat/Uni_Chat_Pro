@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.menu_profile_options :
 
+                Intent profileIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(profileIntent);
                 Toast.makeText(MainActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
 
                 break;
