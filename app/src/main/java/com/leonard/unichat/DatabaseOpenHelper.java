@@ -5,50 +5,79 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseOpenHelper extends SQLiteAssetHelper {
 
-
     private static final String DATABASE_NAME = "uni_chat.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_NAME_STUDENT = "student";
-    private static final String TABLE_NAME_ADMIN = "admin_student";
-    private static final String TABLE_NAME_TEACHER = "teacher";
-
-    private static final String STUDENT_COLUMN_USER_ID = "s_id";
-    private static final String STUDENT_COLUMN_USER_REG_ID = "s_std_reg_id";
-    private static final String STUDENT_COLUMN_USER_DOB = "s_std_birth_date";
-
-    private static final String ADMIN_COLUMN_USER_ID = "ad_s_id";
-    private static final String ADMIN_COLUMN_USER_REG_ID = "ad_s_reg_id";
-    private static final String ADMIN_COLUMN_USER_DOB = "ad_s_birth_date";
-
-    private static final String TEACHER_COLUMN_USER_ID = "tc_id";
-    private static final String TEACHER_COLUMN_USER_REG_ID = "tc_reg_id";
-    private static final String TEACHER_COLUMN_USER_DOB = "tc_birth_date";
-
-    public DatabaseOpenHelper (Context context) {
-
+    public DatabaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public Cursor getData (String sql) {
+    public Cursor getData(String sql){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery(sql, null);
     }
 
+    public boolean check(String id, String date) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM teacher WHERE tc_reg_id='"+id+"' AND tc_birth_date = '"+date+"'", null);
+        boolean exists = (cursor.getCount() > 0);
+        if (exists) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    public boolean checkUserTeacherDOB (String tcRegID, String tcDOB) {
+    public boolean checkDataBase() {
+        /*File dbFile = myContext.getDatabasePath(DATABASE_NAME);
+        if (dbFile.exists()) return true;
+        if (!dbFile.getParentFile().exists()) {
+            dbFile.getParentFile().mkdirs();
+        }*/
+        return false;
+    }
 
-        String[] columnsSTD = {TEACHER_COLUMN_USER_ID};
+    public ArrayList getDataAll() {
+
+        //SQLiteDatabase db = this.getReadableDatabase();
+
+        /*if (checkDataBase()== true) {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            ArrayList <String> arrayList = new ArrayList<>();
+
+            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_TEACHER, null );
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                arrayList.add(cursor.getString(cursor.getColumnIndex(TEACHER_COLUMN_USER_REG_ID)));
+                cursor.moveToNext();
+            }
+
+
+
+        return arrayList;
+    } else {
+
+            return null;
+        }*/
+        return null;
+    }
+
+    public boolean checkUserTeacherDOB(String tcRegID, String tcDOB) {
+
+        /*String[] columnsSTD = {TEACHER_COLUMN_USER_ID};
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -73,8 +102,9 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
         if (cursorCount > 0) {
 
             return true;
-        }
+        }*/
 
         return false;
     }
+
 }

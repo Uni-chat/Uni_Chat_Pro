@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,9 @@ import com.leonard.unichat.Messages.MainActivity;
 import com.leonard.unichat.R;
 import com.leonard.unichat.UsersModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TeacherSignup extends Fragment {
 
@@ -74,7 +77,7 @@ public class TeacherSignup extends Fragment {
         initObjects();
 
         LandingTwo myLandingPageTwo = new LandingTwo();
-        myLandingPageTwo.birthDatePicker( dateOfBirthPicker, getActivity());
+        myLandingPageTwo.birthDatePicker(dateOfBirthPicker, getActivity());
 
         myLandingPageTwo.spinnerDepartmentAdding(codeSpinner, getActivity());
 
@@ -84,7 +87,7 @@ public class TeacherSignup extends Fragment {
         return view;
     }
 
-    private void initViews () {
+    private void initViews() {
 
 
         edtTcName = (AutoCompleteTextView) view.findViewById(R.id.edtTcName);
@@ -104,7 +107,7 @@ public class TeacherSignup extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
 
-       // LandingPage.fireBaseInitViews(getActivity());
+        // LandingPage.fireBaseInitViews(getActivity());
 
         signUpValue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,25 +118,44 @@ public class TeacherSignup extends Fragment {
         });
     }
 
-    private void initObjects () {
+    private void initObjects() {
 
         //databaseOpenHelper = new DatabaseOpenHelper(getActivity());
         usersModel = new UsersModel();
-       // sqLiteDatabase = databaseOpenHelper.getReadableDatabase();
+        // sqLiteDatabase = databaseOpenHelper.getReadableDatabase();
     }
 
 
-
-
     // Firebase User Regisatration
-    private void registerUSer () {
-
+    private void registerUSer() {
         String name = edtTcName.getText().toString().trim();
         String ids = edtTcID.getText().toString().trim();
         final String email = edtTcEmail.getText().toString().trim();
         final String password = edtTcPass.getText().toString().trim();
         String confirmPass = edtTcPassConfirm.getText().toString().trim();
         String dob = dateOfBirthPicker.getText().toString().trim();
+
+        DatabaseOpenHelper helper = new DatabaseOpenHelper(getActivity());
+        if(helper.check(ids, dob)){
+            Log.d("TAG", "DONE");
+        }else{
+            Log.d("TAG", "ERROR");
+        }
+
+        //Cursor cursor = helper.getData("SELECT * FROM teacher WHERE tc_reg_id = " +ids+ " AND tc_birth_date = "+dob);
+        /*Cursor cursor = helper.getData("SELECT * FROM teacher WHERE tc_reg_id='"+ids+"' AND tc_birth_date = '"+dob+"'");
+        //SELECT * FROM teacher WHERE tc_reg_id='110209' AND tc_birth_date = '29/12/1978';
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(0);
+                String register_id = cursor.getString(1);
+                String register_date = cursor.getString(2);
+                Log.d("TAG", id + "\n"+register_id+"\n"+register_date);
+            }
+        }else{
+            Log.d("TAG",  "Null");
+        }*/
+
         //String spinValue = codeSpinner.setSelection();
 //
 //        if (TextUtils.isEmpty(name)) {
@@ -178,12 +200,10 @@ public class TeacherSignup extends Fragment {
 //        }
 
 
+        // Query idUsersQuary = FirebaseDatabase.getInstance()
+        //       .getReference("Users/Teachers/" + LandingTwo.deptType).orderByChild("ID ").equalTo(ids);
 
-
-       // Query idUsersQuary = FirebaseDatabase.getInstance()
-         //       .getReference("Users/Teachers/" + LandingTwo.deptType).orderByChild("ID ").equalTo(ids);
-
-        Query idUsersQuary = FirebaseDatabase.getInstance()
+        /*Query idUsersQuary = FirebaseDatabase.getInstance()
                 .getReference("Users/Teachers/").orderByChild("ID ").equalTo(ids);
 
 
@@ -221,13 +241,12 @@ public class TeacherSignup extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
     }
 
 
     // Firebase Database of Storing user Data
-    private void saveUserData () {
-
+    private void saveUserData() {
 
         String name = edtTcName.getText().toString().trim();
         String ids = edtTcID.getText().toString().trim();
@@ -238,20 +257,18 @@ public class TeacherSignup extends Fragment {
 
         final String userID = firebaseAuth.getCurrentUser().getUid();
 
-        HashMap < String , String> dataMap = new HashMap<String, String>();
-        dataMap.put("NANE ", name);
-        dataMap.put("ID ", ids);
-        dataMap.put("EMAIL ", email);
-        dataMap.put("PASSWORD ", password);
-        dataMap.put("DATE OF BIRTH ", dob);
-        dataMap.put("DEPT ", LandingTwo.deptType);
-        dataMap.put("USER_TYPE ", userType);
+        HashMap<String, String> dataMap = new HashMap<String, String>();
+        dataMap.put("NAME", name);
+        dataMap.put("ID", ids);
+        dataMap.put("EMAIL", email);
+        dataMap.put("PASSWORD", password);
+        dataMap.put("DATE_OF_BIRTH", dob);
+        dataMap.put("DEPT", LandingTwo.deptType);
+        dataMap.put("USER_TYPE", userType);
         dataMap.put("USER_ID", userID);
 
-
-
         //DatabaseReference currentUserInfo = FirebaseDatabase.getInstance()
-         //       .getReference("Users/Teachers/" + LandingTwo.deptType).child(userID);
+        //       .getReference("Users/Teachers/" + LandingTwo.deptType).child(userID);
 
         DatabaseReference currentUserInfo = FirebaseDatabase.getInstance()
                 .getReference("Users/Teachers/").child(userID);
@@ -262,9 +279,8 @@ public class TeacherSignup extends Fragment {
 
                 if (task.isSuccessful()) {
                     Toast.makeText(getActivity(), " Saved ", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getActivity(), userID , Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), userID, Toast.LENGTH_SHORT).show();
                 }
             }
         });

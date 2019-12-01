@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.leonard.unichat.DatabaseOpenHelper;
 import com.leonard.unichat.R;
 import com.leonard.unichat.Utils;
 
@@ -30,8 +33,6 @@ public class LandingPage extends AppCompatActivity {
             fragmentManager.beginTransaction().replace(R.id.frameContainer, new SplashToGo(),
                     Utils.SplashToGo).commit();
         }
-
-
     }
 
 

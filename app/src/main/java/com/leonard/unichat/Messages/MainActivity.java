@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.leonard.unichat.DatabaseOpenHelper;
 import com.leonard.unichat.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +47,20 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Uni Chat");
+
+
+        DatabaseOpenHelper dbOpener = new DatabaseOpenHelper(MainActivity.this);
+
+        if (dbOpener.checkDataBase() == true){
+            Toast.makeText(MainActivity.this, "alue", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Nothing", Toast.LENGTH_SHORT).show();
+        }
+
+        //String nwSrrt = dbOpener.getDataAll().toString();
+       // Log.i("TAG", nwSrrt);
+
 
         TabChangeMethods();
     }

@@ -48,6 +48,8 @@ public class LandingTwo extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_landing_two, container, false);
 
+
+
         initViews();
         return view;
 
@@ -280,7 +282,7 @@ public class LandingTwo extends Fragment {
     public void onStart() {
         super.onStart();
         
-        stdItemEnable();
+        //stdItemEnable();
     }
 }
 

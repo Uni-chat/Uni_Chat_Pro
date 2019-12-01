@@ -199,6 +199,7 @@ public class GroupChat extends AppCompatActivity {
 
         Iterator iterator = dataSnapshot.getChildren().iterator();
 
+
         while (iterator.hasNext()) {
 
             String chatDate = (String) ((DataSnapshot)iterator.next()).getValue();
@@ -213,4 +214,14 @@ public class GroupChat extends AppCompatActivity {
 
         }
     }
+
+
+   /* private String getRandomColor() {
+        Random r = new Random();
+        StringBuffer sb = new StringBuffer("#");
+        while(sb.length() < 7){
+            sb.append(Integer.toHexString(r.nextInt()));
+        }
+        return sb.toString().substring(0, 7);
+    }*/
 }

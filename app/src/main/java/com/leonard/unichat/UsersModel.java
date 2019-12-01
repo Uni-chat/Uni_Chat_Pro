@@ -7,12 +7,15 @@ public class UsersModel {
     private String dateOfBirth;
 
 
+    public UsersModel() {
 
-//    public UsersModel(int id, String regID, String dateOfBirth) {
-//        this.id = id;
-//        this.regID = regID;
-//        this.dateOfBirth = dateOfBirth;
-//    }
+    }
+
+    public UsersModel(int id, String regID, String dateOfBirth) {
+        this.id = id;
+        this.regID = regID;
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public int getId() {
         return id;

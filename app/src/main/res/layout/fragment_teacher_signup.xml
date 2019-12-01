@@ -238,7 +238,6 @@
 
         </RelativeLayout>
 
-
         <Button
             android:id="@+id/signUpValue"
             android:layout_width="wrap_content"
@@ -251,6 +250,7 @@
             android:ems="13"
             android:text="Create Account"
             android:textAllCaps="false"/>
+
     </LinearLayout>
 
 </RelativeLayout>
