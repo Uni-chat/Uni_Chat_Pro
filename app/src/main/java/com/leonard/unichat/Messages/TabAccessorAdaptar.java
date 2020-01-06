@@ -18,7 +18,7 @@ public class TabAccessorAdaptar extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        switch ( position ) {
+       switch ( position ) {
 
             case 0:
                 Message myMessage = new Message();
@@ -27,6 +27,10 @@ public class TabAccessorAdaptar extends FragmentPagerAdapter {
             case 1:
                 Notice myNotice = new Notice();
                 return myNotice;
+
+            case 2:
+                ChatRequest myChatRequest = new ChatRequest();
+                return myChatRequest;
 
             default:
                 return null;
@@ -37,7 +41,7 @@ public class TabAccessorAdaptar extends FragmentPagerAdapter {
     @Override
     public int getCount() {
 
-        return 2;
+        return 3;
     }
 
 //    @Nullable

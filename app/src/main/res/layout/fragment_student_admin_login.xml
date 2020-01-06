@@ -26,7 +26,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Class Repersentative Log In"
+            android:text="Admin Log In"
             android:textColor="@color/white"
             android:textSize="24sp" />
 

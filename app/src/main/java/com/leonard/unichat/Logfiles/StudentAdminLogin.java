@@ -1,18 +1,36 @@
 package com.leonard.unichat.Logfiles;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.leonard.unichat.Messages.MainActivity;
 import com.leonard.unichat.R;
 import com.leonard.unichat.Utils;
 
@@ -29,8 +47,21 @@ public class StudentAdminLogin extends Fragment {
 
 
     private View view;
+    private AutoCompleteTextView edtStdAdminLoginEmail, edtStdAdminLoginPass;
     private String txtPassColor;
     private TextView forgtPass;
+    private Button signInValue;
+    private String usType = "Admin";
+    private String currentUserUID, userType;
+    private CheckBox rememberChechBox;
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPreferenceEditor;
+    private boolean saveLoginState;
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference checkUserRef;
+    private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private static FragmentManager fragmentManager;
 
 
@@ -127,11 +158,39 @@ public class StudentAdminLogin extends Fragment {
 
     private void initViews () {
 
-      forgtPass = (TextView) view.findViewById(R.id.forgtPass);
+        edtStdAdminLoginEmail = (AutoCompleteTextView) view.findViewById(R.id.edtStdAdminLoginEmail);
+        edtStdAdminLoginPass = (AutoCompleteTextView) view.findViewById(R.id.edtStdAdminLoginPass);
+        forgtPass = (TextView) view.findViewById(R.id.forgtPass);
+        signInValue = (Button) view.findViewById(R.id.signInValue);
+
+        // CheckBox implementation
+        rememberChechBox = (CheckBox) view.findViewById(R.id.rememberChechBox);
+        loginPreferences = getActivity().getSharedPreferences("loginPrefsData", Context.MODE_PRIVATE);
+        loginPreferenceEditor = loginPreferences.edit();
+
+        // CheckBox Preferences
+        saveLoginState = loginPreferences.getBoolean("saveLoginState", true);
+        if (saveLoginState == true) {
+            edtStdAdminLoginEmail.setText(loginPreferences.getString("Username",null ));
+            edtStdAdminLoginPass.setText(loginPreferences.getString("Password", null));
+        }
+
+
       fragmentManager = getActivity().getSupportFragmentManager();
+
+        firebaseAuth = firebaseAuth.getInstance();
+        fragmentManager = getActivity().getSupportFragmentManager();
 
       txtPassColor = "<font color = white > Don't you remember your </font> <font color = yellow > password ? </font>";
       forgtPass.setText(Html.fromHtml(txtPassColor));
+
+        signInValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                adminLoginToApp();
+            }
+        });
 
         forgtPass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,5 +200,90 @@ public class StudentAdminLogin extends Fragment {
                         new ForgetPassword(), Utils.ForgetPassword).commit();
             }
         });
+    }
+
+    private void adminLoginToApp () {
+
+        String adminUserLoginEmail = edtStdAdminLoginEmail.getText().toString().trim();
+        String adminUserLoginPassword = edtStdAdminLoginPass.getText().toString().trim();
+
+        if (TextUtils.isEmpty(adminUserLoginEmail)) {
+
+            Toast.makeText( getActivity(), " Enter Email Address !",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(adminUserLoginPassword)) {
+            Toast.makeText(getActivity(), " Enter Your Password !", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Remember Checked
+        if (rememberChechBox.isChecked()){
+            loginPreferenceEditor.putBoolean("saveLoginState", true);
+            loginPreferenceEditor.putString("Username", adminUserLoginEmail);
+            loginPreferenceEditor.putString("Password", adminUserLoginPassword);
+            loginPreferenceEditor.commit();
+        }
+
+        firebaseAuth.signInWithEmailAndPassword(adminUserLoginEmail, adminUserLoginPassword)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull final Task<AuthResult> task) {
+
+                        firebaseDatabase = FirebaseDatabase.getInstance();
+                        checkUserRef = firebaseDatabase.getReference("Users/Admin");
+                        currentUserUID = firebaseAuth.getCurrentUser().getUid();
+
+                        checkUserRef.child(currentUserUID).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+
+                                    userType = dataSnapshot.child("USER_TYPE").getValue().toString();
+
+                                    if (userType.equals(usType)) {
+
+                                        if (task.isSuccessful()) {
+
+                                            try {
+
+                                                Intent intent = new Intent(getContext(), MainActivity.class);
+                                                intent.putExtra("US_REF", usType);
+                                                startActivity(intent);
+
+                                                Toast.makeText(getActivity(), "Log in Success.", Toast.LENGTH_SHORT).show();
+                                                getActivity().finish();
+
+
+                                            } catch (Exception e) {
+
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(), "Log in Failed.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+
+                                        FirebaseAuth.getInstance().signOut();
+                                        Toast.makeText(getActivity(), "Your are not Registered as Admin", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                } else {
+
+                                    FirebaseAuth.getInstance().signOut();
+                                    Toast.makeText(getActivity(), "Your are not Registered as Admin", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+                });
     }
 }

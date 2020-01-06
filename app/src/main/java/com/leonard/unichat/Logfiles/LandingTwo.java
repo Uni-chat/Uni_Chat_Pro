@@ -2,6 +2,7 @@ package com.leonard.unichat.Logfiles;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,8 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.leonard.unichat.Messages.MainActivity;
 import com.leonard.unichat.R;
 import com.leonard.unichat.Utils;
 
@@ -36,6 +39,7 @@ public class LandingTwo extends Fragment {
     private Switch switchTeacher, switchStudentAdmin, switchStudent;
     private static FragmentManager fragmentManager;
     public static String deptType;
+    private FirebaseAuth mAuth;
 
     public LandingTwo() {
         // Required empty public constructor
@@ -51,11 +55,14 @@ public class LandingTwo extends Fragment {
 
 
         initViews();
+        stdItemEnable();
         return view;
 
     }
 
     private void initViews () {
+
+        mAuth = FirebaseAuth.getInstance();
 
         btnGlobalSignup = (Button) view.findViewById(R.id.btnGlobalSignUp);
         btnGlobalSignin = (Button) view.findViewById(R.id.btnGlobalSignIn);
@@ -90,6 +97,7 @@ public class LandingTwo extends Fragment {
         });
 
     }
+
 
     private void stdItemEnable () {
 
@@ -193,6 +201,9 @@ public class LandingTwo extends Fragment {
 
     }
 
+
+
+
 //    private void updateLabel () {
 //
 //        String myFormat = "dd/MM/yyyy";
@@ -281,6 +292,12 @@ public class LandingTwo extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        /*if (mAuth.getCurrentUser() != null) {
+            getActivity().finish();
+            startActivity(new Intent(getActivity(), MainActivity.class));
+        }*/
+
         
         //stdItemEnable();
     }

@@ -26,6 +26,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.google.firebase:firebase-database:19.1.0'
     implementation 'com.google.firebase:firebase-storage:19.1.0'
+    implementation 'com.firebaseui:firebase-ui-database:4.3.2'
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
     implementation 'com.mikhaellopez:circularimageview:4.0.2'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'

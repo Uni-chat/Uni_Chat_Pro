@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.leonard.unichat.DatabaseOpenHelper;
+import com.leonard.unichat.Logfiles.LandingPage;
 import com.leonard.unichat.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,9 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager myViewPager;
     private TabLayout MyTabLayout, tabsContent;
-    private TabItem tabMessage, tabNotice;
+    private TabItem tabMessage, tabNotice, tabChatRequest;
     private TabAccessorAdaptar myTabAccessorAdaptar;
+    private String getUserType;
     private Toolbar myToolbar;
+    private FirebaseAuth firebaseAuth;
+    public static String smText;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +41,31 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
 
+        smText = getUserType;
+
+        if (getUserType.equals("Student") || getUserType.equals("Teacher")){
+
+            TabLayout.Tab tab = tabsContent.getTabAt(2);
+
+            if(tab != null) {
+
+                tabsContent.removeTab(tab);
+            }
+
+        }
+
     }
 
     private void initViews () {
 
+        getUserType = getIntent().getExtras().get("US_REF").toString();
+
+        mAuth = FirebaseAuth.getInstance();
+
         tabsContent = (TabLayout) findViewById(R.id.tabsContent);
         tabMessage = (TabItem) findViewById(R.id.tabMessage);
         tabNotice = (TabItem) findViewById(R.id.tabNotice);
+        tabChatRequest = (TabItem) findViewById(R.id.tabChatRequest);
         myViewPager = (ViewPager) findViewById(R.id.viewPagerShow);
         myToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.myToolbar);
 
@@ -49,20 +73,22 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Uni Chat");
 
 
-        DatabaseOpenHelper dbOpener = new DatabaseOpenHelper(MainActivity.this);
-
-        if (dbOpener.checkDataBase() == true){
-            Toast.makeText(MainActivity.this, "alue", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(MainActivity.this, "Nothing", Toast.LENGTH_SHORT).show();
-        }
-
         //String nwSrrt = dbOpener.getDataAll().toString();
        // Log.i("TAG", nwSrrt);
 
 
         TabChangeMethods();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        /*if (mAuth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(this, LandingPage.class));
+        }*/
     }
 
     private void TabChangeMethods () {
@@ -108,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_profile_options :
 
                 Intent profileIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                profileIntent.putExtra("TYPE_USER", getUserType);
                 startActivity(profileIntent);
                 Toast.makeText(MainActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
 
@@ -119,11 +146,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_log_out_options :
 
+                signOut();
                 Toast.makeText(MainActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
-                break;
+                Intent intent = new Intent(MainActivity.this, LandingPage.class);
+                startActivity(intent);
+                finish();
 
         }
         return true;
 
+    }
+
+    private void signOut () {
+
+        firebaseAuth.getInstance().signOut();
     }
 }

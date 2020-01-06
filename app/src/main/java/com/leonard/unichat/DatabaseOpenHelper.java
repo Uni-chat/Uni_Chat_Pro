@@ -29,7 +29,30 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
         return sqLiteDatabase.rawQuery(sql, null);
     }
 
-    public boolean check(String id, String date) {
+    public boolean checkStduentDatabase(String id, String date) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM student WHERE s_std_reg_id='"+id+"' AND s_std_birth_date = '"+date+"'", null);
+        boolean exists = (cursor.getCount() > 0);
+        if (exists) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkStduentAdminDatabase(String id, String date, String key) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase
+                .rawQuery("SELECT * FROM admin_student WHERE ad_s_reg_id='"+id+"' AND ad_s_birth_date = '"+date+"' AND ad_s_key = '"+key+"'", null);
+        boolean exists = (cursor.getCount() > 0);
+        if (exists) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkTeacherDatabase(String id, String date) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM teacher WHERE tc_reg_id='"+id+"' AND tc_birth_date = '"+date+"'", null);
         boolean exists = (cursor.getCount() > 0);
@@ -39,72 +62,4 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
             return false;
         }
     }
-
-    public boolean checkDataBase() {
-        /*File dbFile = myContext.getDatabasePath(DATABASE_NAME);
-        if (dbFile.exists()) return true;
-        if (!dbFile.getParentFile().exists()) {
-            dbFile.getParentFile().mkdirs();
-        }*/
-        return false;
-    }
-
-    public ArrayList getDataAll() {
-
-        //SQLiteDatabase db = this.getReadableDatabase();
-
-        /*if (checkDataBase()== true) {
-            SQLiteDatabase db = this.getReadableDatabase();
-
-            ArrayList <String> arrayList = new ArrayList<>();
-
-            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_TEACHER, null );
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                arrayList.add(cursor.getString(cursor.getColumnIndex(TEACHER_COLUMN_USER_REG_ID)));
-                cursor.moveToNext();
-            }
-
-
-
-        return arrayList;
-    } else {
-
-            return null;
-        }*/
-        return null;
-    }
-
-    public boolean checkUserTeacherDOB(String tcRegID, String tcDOB) {
-
-        /*String[] columnsSTD = {TEACHER_COLUMN_USER_ID};
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selection = TEACHER_COLUMN_USER_REG_ID + " =?" + " AND " + TEACHER_COLUMN_USER_DOB + " =?";
-        //String selection = TEACHER_COLUMN_USER_REG_ID  + " AND " + TEACHER_COLUMN_USER_DOB;
-
-        String[] selectionArgs = {tcRegID, tcDOB};
-
-//        Cursor cursor = db.query(TABLE_NAME_TEACHER,
-//                columnsSTD,
-//                selection,
-//                selectionArgs,
-//                null,
-//                null,
-//                null);
-
-        Cursor cursor = db.rawQuery("SELECT tc_id FROM teacher where tc_reg_id AND tc_birth_date", selectionArgs);
-
-        int cursorCount = cursor.getCount();
-        cursor.close();
-        db.close();
-        if (cursorCount > 0) {
-
-            return true;
-        }*/
-
-        return false;
-    }
-
 }

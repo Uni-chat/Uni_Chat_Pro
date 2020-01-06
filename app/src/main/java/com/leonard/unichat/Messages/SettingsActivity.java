@@ -43,12 +43,14 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView txtNameOfUsers;
     private EditText edtStatusOfUsers;
     private CircularImageView imgSetProfileImage;
-    private String currentUserID, currentUserName;
+    private String currentUserID, currentUserName, userAsStudent, userAsAdmin;
+    private static String userAsType;
     private Uri imageUri, resultUri;
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseRefTeacher, databaseRefStudent, databaseRefAdmin;
     private StorageReference userProfileImageRef;
     private static final int IMG_REQUEST_CODE = 1;
+    private String users;
 
 
     @Override
@@ -79,6 +81,11 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+  /*  if(extras!=null){
+        petrolPriceURL =extras.getString("URLString");
+
+    }*/
+
     //Unused Method bcoz of Crop Image Library
     /*private void showFileChooser() {
 
@@ -92,17 +99,22 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initViews () {
 
+        userAsType = getIntent().getExtras().get("TYPE_USER").toString();
+
         updateSettingsButton = (Button) findViewById(R.id.updateSettingsButton);
         txtNameOfUsers = (TextView) findViewById(R.id.txtNameOfUsers);
         edtStatusOfUsers = (EditText) findViewById(R.id.edtStatusOfUsers);
         imgSetProfileImage = (CircularImageView) findViewById(R.id.imgSetProfileImage);
 
+
+
         firebaseAuth = FirebaseAuth.getInstance();
         currentUserID = firebaseAuth.getCurrentUser().getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users/Teachers");
+        databaseRefTeacher = FirebaseDatabase.getInstance().getReference().child("Users/Teachers");
+        databaseRefStudent = FirebaseDatabase.getInstance().getReference().child("Users/Student");
+        databaseRefAdmin = FirebaseDatabase.getInstance().getReference().child("Users/Admin");
+
         userProfileImageRef = FirebaseStorage.getInstance().getReference().child("Proflie Images");
-
-
 
     }
 
@@ -142,22 +154,23 @@ public class SettingsActivity extends AppCompatActivity {
 
                                 final String downloadImageUrl = uri.toString();
 
-                                databaseReference.child(currentUserID).child("IMG_URL ").setValue(downloadImageUrl)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
+                                if (userAsType.equals("Admin")) {
 
-                                                if (task.isSuccessful()) {
+                                    photoUriRef(databaseRefAdmin, downloadImageUrl);
 
-                                                    Toast.makeText(SettingsActivity.this, " Image saved in DB ", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
+                                }
 
-                                                    String message = task.getException().toString();
-                                                    Toast.makeText(SettingsActivity.this, message , Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
+                                else if (userAsType.equals("Teacher")) {
+
+                                    photoUriRef(databaseRefTeacher, downloadImageUrl);
+
+                                }
+
+                                else if (userAsType.equals("Student")) {
+
+                                    photoUriRef(databaseRefStudent, downloadImageUrl);
+
+                                }
                             }
                         });
                     }
@@ -208,6 +221,8 @@ public class SettingsActivity extends AppCompatActivity {
         String setUserName = txtNameOfUsers.getText().toString();
         String setUserMode = edtStatusOfUsers.getText().toString();
 
+
+
         if (TextUtils.isEmpty(setUserMode)) {
 
             Toast.makeText(this, "Dont have Status", Toast.LENGTH_SHORT).show();
@@ -219,21 +234,24 @@ public class SettingsActivity extends AppCompatActivity {
             //prifileMap.put("NANE ", setUserName);
             prifileMap.put("STATUS ", setUserMode);*/
 
-           databaseReference.child(currentUserID).child("STATUS ").setValue(setUserMode)
-                   .addOnCompleteListener(new OnCompleteListener<Void>() {
-               @Override
-               public void onComplete(@NonNull Task<Void> task) {
+            if (users.equals("Admin")) {
 
-                   if (task.isSuccessful()) {
-                       Toast.makeText(SettingsActivity.this, " Files Updated ", Toast.LENGTH_SHORT).show();
-                   }
-                   else {
+                updateStatusRef(databaseRefAdmin, setUserMode);
 
-                       String message = task.getException().toString();
-                       Toast.makeText(SettingsActivity.this, message , Toast.LENGTH_SHORT).show();
-                   }
-               }
-           });
+            }
+
+            else if (users.equals("Teacher")) {
+
+                updateStatusRef(databaseRefTeacher, setUserMode);
+
+            }
+
+            else if (users.equals("Student")) {
+
+                updateStatusRef(databaseRefStudent, setUserMode);
+
+            }
+
         }
 
     }
@@ -241,17 +259,45 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void retriveUserInfo() {
 
+        if (userAsType.equals("Admin")) {
 
-        databaseReference.child(currentUserID).addValueEventListener(new ValueEventListener() {
+            users = "Admin";
+
+            retiveDBInfo(databaseRefAdmin);
+
+        }
+
+        else if (userAsType.equals("Teacher")) {
+
+            users = "Teacher";
+
+            retiveDBInfo(databaseRefTeacher);
+
+        }
+
+        else if (userAsType.equals("Student")) {
+
+            users = "Student";
+
+            retiveDBInfo(databaseRefStudent);
+
+        }
+    }
+
+    private void retiveDBInfo (DatabaseReference userRefDB) {
+
+
+        userRefDB.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if ((dataSnapshot.exists())  &&
-                        (dataSnapshot.hasChild("NANE ") && (dataSnapshot.hasChild("IMG_URL ")))) {
+                        (dataSnapshot.hasChild("NAME") && (dataSnapshot.hasChild("STATUS"))
+                                && (dataSnapshot.hasChild("IMG_URL")))) {
 
-                    String retriveUserName = dataSnapshot.child("NANE ").getValue().toString();
-                    String retriveUserStatus = dataSnapshot.child("STATUS ").getValue().toString();
-                    String retriveUserImageUrl = dataSnapshot.child("IMG_URL ").getValue().toString();
+                    String retriveUserName = dataSnapshot.child("NAME").getValue().toString();
+                    String retriveUserStatus = dataSnapshot.child("STATUS").getValue().toString();
+                    String retriveUserImageUrl = dataSnapshot.child("IMG_URL").getValue().toString();
 
                     txtNameOfUsers.setText(retriveUserName);
                     edtStatusOfUsers.setText(retriveUserStatus);
@@ -259,17 +305,27 @@ public class SettingsActivity extends AppCompatActivity {
                     Picasso.get().load(retriveUserImageUrl).into(imgSetProfileImage);
 
                 } else if ((dataSnapshot.exists())  &&
-                        (dataSnapshot.hasChild("NANE ") && (dataSnapshot.hasChild("STATUS ")))) {
+                        (dataSnapshot.hasChild("NAME") && (dataSnapshot.hasChild("STATUS")))) {
 
-                    String retriveUserName = dataSnapshot.child("NANE ").getValue().toString();
-                    String retriveUserStatus = dataSnapshot.child("STATUS ").getValue().toString();
+                    String retriveUserName = dataSnapshot.child("NAME").getValue().toString();
+                    String retriveUserStatus = dataSnapshot.child("STATUS").getValue().toString();
 
                     txtNameOfUsers.setText(retriveUserName);
                     edtStatusOfUsers.setText(retriveUserStatus);
 
-                } else if ((dataSnapshot.exists())  && (dataSnapshot.hasChild("NANE "))) {
+                } else if ((dataSnapshot.exists())  &&
+                        (dataSnapshot.hasChild("NAME") && (dataSnapshot.hasChild("IMG_URL")))) {
 
-                    String retriveUserName = dataSnapshot.child("NANE ").getValue().toString();
+                    String retriveUserName = dataSnapshot.child("NAME").getValue().toString();
+                    String retriveUserImageUrl = dataSnapshot.child("IMG_URL").getValue().toString();
+
+                    txtNameOfUsers.setText(retriveUserName);
+                    edtStatusOfUsers.setText("");
+                    Picasso.get().load(retriveUserImageUrl).into(imgSetProfileImage);
+
+                } else if ((dataSnapshot.exists())  && (dataSnapshot.hasChild("NAME"))) {
+
+                    String retriveUserName = dataSnapshot.child("NAME").getValue().toString();
                     //String retriveUserStatus = dataSnapshot.child("STATUS ").getValue().toString();
 
                     txtNameOfUsers.setText(retriveUserName);
@@ -291,5 +347,49 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void updateStatusRef (DatabaseReference statusRefDB, String statusSet) {
+
+        statusRefDB.child(currentUserID).child("STATUS").setValue(statusSet)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SettingsActivity.this, " Files Updated ", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+
+                            String message = task.getException().toString();
+                            Toast.makeText(SettingsActivity.this, message , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void photoUriRef (DatabaseReference photoUriDB, String strImgUrl) {
+
+        photoUriDB.child(currentUserID).child("IMG_URL").setValue(strImgUrl)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (task.isSuccessful()) {
+
+                            Toast.makeText(SettingsActivity.this, " Image saved in DB ", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+
+                            String message = task.getException().toString();
+                            Toast.makeText(SettingsActivity.this, message , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+
+
+
+
 
 }

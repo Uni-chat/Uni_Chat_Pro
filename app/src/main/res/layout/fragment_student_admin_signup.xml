@@ -26,7 +26,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Class Repersentative Registration"
+            android:text="Admin Registration"
             android:textColor="@color/white"
             android:textSize="24sp" />
 
@@ -206,15 +206,16 @@
             android:gravity="center"
             android:textColorHint="#FFEB3B"
             app:hintTextAppearance="@style/txt_appeerances_color_change"
+            app:passwordToggleEnabled="true"
             style="@style/materials_bit_change"
             android:layout_margin="5sp">
 
             <AutoCompleteTextView
-                android:id="@+id/edtClassRepresentative"
+                android:id="@+id/edtRepresentative"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="15"
-                android:hint=" Identification of CR "
+                android:hint=" Identification of Admin "
                 android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF"
                 android:inputType="textPassword"
@@ -250,7 +251,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/signInValue"
+            android:id="@+id/signUpValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

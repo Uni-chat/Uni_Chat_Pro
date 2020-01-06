@@ -39,10 +39,14 @@ public class Message extends Fragment {
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<String> listOfGroups = new ArrayList<>();
 
-    private String currentUserUID, userType;
+    public static String currentUserUID;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference groupRef, userRef;
+    private DatabaseReference databaseRefTeacher, databaseRefStudent, databaseRefAdmin;
+    private String userAsType, userName;
+    public static String groupName;
+    public static String adminType;
 
 
     public Message() {
@@ -57,6 +61,10 @@ public class Message extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_message, container, false);
 
+
+
+
+
         initViews();
 
         //retriveAndDisplayGroups();
@@ -70,6 +78,9 @@ public class Message extends Fragment {
                 // Intent and Passing Every Group Name to groupChat Activity
                 Intent groupChatIntent = new Intent(getContext(), GroupChat.class);
                 groupChatIntent.putExtra("GROUPNAME",currentGroupName);
+                groupChatIntent.putExtra("U_NAME", userName);
+                groupChatIntent.putExtra("U_ID", currentUserUID);
+
                 startActivity(groupChatIntent);
             }
         });
@@ -81,18 +92,93 @@ public class Message extends Fragment {
 
     private void initViews() {
 
+        userAsType = MainActivity.smText;
+
         listView = (ListView) view.findViewById(R.id.groupNames);
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listOfGroups);
         listView.setAdapter(arrayAdapter);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        userRef = firebaseDatabase.getReference("Users/Teachers");
-
         currentUserUID = firebaseAuth.getCurrentUser().getUid();
 
+        databaseRefTeacher = FirebaseDatabase.getInstance().getReference().child("Users/Teachers");
+        databaseRefStudent = FirebaseDatabase.getInstance().getReference().child("Users/Student");
+        databaseRefAdmin = FirebaseDatabase.getInstance().getReference().child("Users/Admin");
+
+
+        if (userAsType.equals("Admin")) {
+
+            Toast.makeText(getActivity(), userAsType, Toast.LENGTH_SHORT).show();
+
+           /* groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Teachers");
+
+            retriveAndDisplayGroups(groupRef);*/
+
+            getUserName(databaseRefAdmin);
+
+            databaseRefAdmin.child(currentUserUID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                    if (dataSnapshot.exists() && (dataSnapshot.hasChild("ADMINISTRATION"))) {
+
+                        // Getting USer Name
+                        adminType = dataSnapshot.child("ADMINISTRATION").getValue().toString();
+                        Toast.makeText(getActivity(), adminType, Toast.LENGTH_SHORT).show();
+
+                        if (adminType.equals("CSE_TC")) {
+
+                            getGrpName();
+
+                            groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Teachers");
+
+                            retriveAndDisplayGroups(groupRef);
+
+                        } else if (adminType.equals("CSE_AD")) {
+
+                            groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Students");
+
+                            retriveAndDisplayGroups(groupRef);
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+        else if (userAsType.equals("Teacher")) {
+
+            Toast.makeText(getActivity(), userAsType, Toast.LENGTH_SHORT).show();
+
+            groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Teachers");
+
+            retriveAndDisplayGroups(groupRef);
+
+            getUserName(databaseRefTeacher);
+
+        }
+
+        else if (userAsType.equals("Student")) {
+
+            Toast.makeText(getActivity(), userAsType, Toast.LENGTH_SHORT).show();
+
+            groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Students");
+
+            retriveAndDisplayGroups(groupRef);
+
+            getUserName(databaseRefStudent);
+
+        }
+
+
         // Matching by Uid Where In Firebase
-        userRef.child(currentUserUID).addValueEventListener(new ValueEventListener() {
+        /*userRef.child(currentUserUID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -100,15 +186,15 @@ public class Message extends Fragment {
                 if (dataSnapshot.exists()) {
 
                     // Getting UserType if its Teachers or Students from DataBase
-                    userType = dataSnapshot.child("USER_TYPE ").getValue().toString();
+                    userType = dataSnapshot.child("USER_TYPE").getValue().toString();
 
                     // If its Teachers then only Show Teachers Chat Group
                     if (userType.equals(usType)) {
 
                         // Show TEacher Group
-                        groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Teachers");
+                        *//*groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Teachers");
 
-                        retriveAndDisplayGroups();
+                        retriveAndDisplayGroups();*//*
 
                     } else {
 
@@ -126,11 +212,33 @@ public class Message extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+        });*/
+    }
+
+    private void getUserName (DatabaseReference userDBRef) {
+
+        userDBRef.child(currentUserUID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                if (dataSnapshot.exists()  && (dataSnapshot.hasChild("NAME"))) {
+
+                    // Getting USer Name
+                    userName = dataSnapshot.child("NAME").getValue().toString();
+                    Toast.makeText(getActivity(), userName, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
     }
 
     // Retriving Group Name From Firebase DataBase
-    private void retriveAndDisplayGroups() {
+    private void retriveAndDisplayGroups(DatabaseReference groupRef) {
 
         groupRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -157,6 +265,38 @@ public class Message extends Fragment {
             }
         });
 
+    }
+
+    private void getGrpName () {
+
+        databaseRefAdmin.child(currentUserUID).child("Chat").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChild("Group Name")) {
+
+                    groupName = dataSnapshot.child("Group Name").getValue().toString();
+
+                    //useValue(value);
+                    //txtHide.setText(dataSnapshot.child("Group Name").getValue(String.class));
+
+                    //txtHide.setText(value);
+
+                    Toast.makeText(getContext(), groupName, Toast.LENGTH_SHORT).show();
+
+
+//                    frcall.onCallback(gpName);
+                }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

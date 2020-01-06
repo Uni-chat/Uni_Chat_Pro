@@ -36,7 +36,14 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="Notice" />
-        </com.google.android.material.tabs.TabLayout>
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabChatRequest"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Request" />
+
+    </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager

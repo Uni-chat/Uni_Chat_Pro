@@ -102,8 +102,11 @@ public class SplashToGo extends Fragment {
                 }else{
                     //closing the timer
                     timer.cancel();
-                    fragmentManager.beginTransaction().replace(R.id.frameContainer, new TeacherSignup(),
-                            Utils.TeacherSignup).commit();
+//                    fragmentManager.beginTransaction().replace(R.id.frameContainer, new TeacherSignup(),
+//                            Utils.TeacherSignup).commit();
+
+                    fragmentManager.beginTransaction().replace(R.id.frameContainer, new LandingTwo(),
+                            Utils.LandingTwo).commit();
                     // close this activity
 
                    //Intent myIntent = new Intent(getActivity(), MainActivity.class);

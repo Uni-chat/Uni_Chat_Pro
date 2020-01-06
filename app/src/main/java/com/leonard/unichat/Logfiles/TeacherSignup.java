@@ -120,9 +120,8 @@ public class TeacherSignup extends Fragment {
 
     private void initObjects() {
 
-        //databaseOpenHelper = new DatabaseOpenHelper(getActivity());
+
         usersModel = new UsersModel();
-        // sqLiteDatabase = databaseOpenHelper.getReadableDatabase();
     }
 
 
@@ -135,26 +134,6 @@ public class TeacherSignup extends Fragment {
         String confirmPass = edtTcPassConfirm.getText().toString().trim();
         String dob = dateOfBirthPicker.getText().toString().trim();
 
-        DatabaseOpenHelper helper = new DatabaseOpenHelper(getActivity());
-        if(helper.check(ids, dob)){
-            Log.d("TAG", "DONE");
-        }else{
-            Log.d("TAG", "ERROR");
-        }
-
-        //Cursor cursor = helper.getData("SELECT * FROM teacher WHERE tc_reg_id = " +ids+ " AND tc_birth_date = "+dob);
-        /*Cursor cursor = helper.getData("SELECT * FROM teacher WHERE tc_reg_id='"+ids+"' AND tc_birth_date = '"+dob+"'");
-        //SELECT * FROM teacher WHERE tc_reg_id='110209' AND tc_birth_date = '29/12/1978';
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                String id = cursor.getString(0);
-                String register_id = cursor.getString(1);
-                String register_date = cursor.getString(2);
-                Log.d("TAG", id + "\n"+register_id+"\n"+register_date);
-            }
-        }else{
-            Log.d("TAG",  "Null");
-        }*/
 
         //String spinValue = codeSpinner.setSelection();
 //
@@ -203,45 +182,79 @@ public class TeacherSignup extends Fragment {
         // Query idUsersQuary = FirebaseDatabase.getInstance()
         //       .getReference("Users/Teachers/" + LandingTwo.deptType).orderByChild("ID ").equalTo(ids);
 
-        /*Query idUsersQuary = FirebaseDatabase.getInstance()
-                .getReference("Users/Teachers/").orderByChild("ID ").equalTo(ids);
 
 
 
+        Query idUsersQuary = FirebaseDatabase.getInstance()
+                .getReference("Users/Teachers/").orderByChild("ID").equalTo(ids);
 
+        DatabaseOpenHelper helper = new DatabaseOpenHelper(getActivity());
 
-        idUsersQuary.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        if(helper.checkTeacherDatabase(ids, dob)){
 
-                if (dataSnapshot.getChildrenCount() > 0) {
+            //Log.d("TAG", "DONE");
 
-                    Toast.makeText(getActivity(), "This id is Already Registered !", Toast.LENGTH_SHORT).show();
+            idUsersQuary.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                } else  {
+                    if (dataSnapshot.getChildrenCount() > 0) {
 
-                    // Main Inner Methods of Creating Account
-                    firebaseAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                @Override
-                                public void onSuccess(AuthResult authResult) {
-                                    saveUserData();
-                                    Toast.makeText(getActivity()," Registered ", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), "Failed to Register",Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        Toast.makeText(getActivity(), "This id is Already Registered !", Toast.LENGTH_SHORT).show();
+
+                    } else  {
+
+                        // Main Inner Methods of Creating Account
+                        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                    @Override
+                                    public void onSuccess(AuthResult authResult) {
+                                        saveUserData();
+                                        Toast.makeText(getActivity()," Registered ", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Failed to Register",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                }
+            });
+
+
+
+
+        }else{
+
+            Toast.makeText(getActivity(),"Id and date of birth are not match !!!", Toast.LENGTH_SHORT).show();
+            //Log.d("TAG", "ERROR");
+            return;
+        }
+
+
+
+
+
+        // Extra Check 01/12/2019 database
+
+        /*Cursor cursor = helper.getData("SELECT * FROM teacher WHERE tc_reg_id='"+ids+"' AND tc_birth_date = '"+dob+"'");
+        //SELECT * FROM teacher WHERE tc_reg_id='110209' AND tc_birth_date = '29/12/1978';
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(0);
+                String register_id = cursor.getString(1);
+                String register_date = cursor.getString(2);
+                Log.d("TAG", id + "\n"+register_id+"\n"+register_date);
             }
-        });*/
+        }else{
+            Log.d("TAG",  "Null");
+        }*/
     }
 
 

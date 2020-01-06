@@ -18,56 +18,83 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
-        android:id="@+id/grpScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/appbar"
-        android:layout_above="@+id/layoutBottomSend">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtGroupChatMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textAllCaps="false"
-                android:textSize="20sp"
-                android:textColor="@color/olive_drab"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="50dp"/>
-        </LinearLayout>
-
-    </ScrollView>
-
     <LinearLayout
-        android:id="@+id/layoutBottomSend"
+        android:id="@+id/includeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent"
+        android:layout_below="@id/appbar">
 
-        <EditText
-            android:id="@+id/edtMessage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Write your message.."
-            android:layout_weight=".85"
-            android:padding="17dp"/>
-
-        <ImageButton
-            android:id="@+id/btnSendMessage"
-            android:layout_width="0dp"
-            android:layout_weight=".15"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_round_send"/>
-
+        <include
+            android:id="@+id/vanishToGo"
+            layout="@layout/send_request" />
     </LinearLayout>
 
+
+
+
+    <LinearLayout
+        android:id="@+id/replaceWithReq"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/appbar">
+
+
+        <RelativeLayout
+            android:id="@+id/nonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ScrollView
+                android:id="@+id/grpScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/layoutBottomSend">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtGroupChatMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textAllCaps="false"
+                        android:textSize="20sp"
+                        android:textColor="@color/olive_drab"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginBottom="50dp"/>
+                </LinearLayout>
+
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/layoutBottomSend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true">
+
+                <EditText
+                    android:id="@+id/edtMessage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Write your message.."
+                    android:layout_weight=".85"
+                    android:padding="17dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnSendMessage"
+                    android:layout_width="0dp"
+                    android:layout_weight=".15"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_round_send"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
