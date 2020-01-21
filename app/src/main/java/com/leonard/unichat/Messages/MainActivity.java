@@ -1,23 +1,31 @@
 package com.leonard.unichat.Messages;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.leonard.unichat.DatabaseOpenHelper;
 import com.leonard.unichat.Logfiles.LandingPage;
+import com.leonard.unichat.Logfiles.MyShare;
 import com.leonard.unichat.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,11 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout MyTabLayout, tabsContent;
     private TabItem tabMessage, tabNotice, tabChatRequest;
     private TabAccessorAdaptar myTabAccessorAdaptar;
-    private String getUserType;
+    public static String getUserType, txtSome;
     private Toolbar myToolbar;
     private FirebaseAuth firebaseAuth;
     public static String smText;
     private FirebaseAuth mAuth;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +52,53 @@ public class MainActivity extends AppCompatActivity {
 
         smText = getUserType;
 
-        if (getUserType.equals("Student") || getUserType.equals("Teacher")){
+        if (getUserType != null){
 
-            TabLayout.Tab tab = tabsContent.getTabAt(2);
+            if (getUserType.equals("Student") || getUserType.equals("Teacher")){
 
-            if(tab != null) {
+                TabLayout.Tab tab = tabsContent.getTabAt(2);
 
-                tabsContent.removeTab(tab);
+                if(tab != null) {
+
+                    tabsContent.removeTab(tab);
+
+                }
+            }
+        } else {
+
+            getUserType = txtSome;
+
+            if (getUserType.equals("Student") || getUserType.equals("Teacher")){
+
+                TabLayout.Tab tab = tabsContent.getTabAt(2);
+
+                if(tab != null) {
+
+                    tabsContent.removeTab(tab);
+
+                }
             }
 
         }
+
+
 
     }
 
     private void initViews () {
 
-        getUserType = getIntent().getExtras().get("US_REF").toString();
+        getUserType = MyShare.readLogin(MainActivity.this);
+
+        if (getUserType != null) {
+
+
+
+        } else {
+
+
+        }
+
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -68,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         tabChatRequest = (TabItem) findViewById(R.id.tabChatRequest);
         myViewPager = (ViewPager) findViewById(R.id.viewPagerShow);
         myToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.myToolbar);
+
 
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Uni Chat");
@@ -81,19 +122,82 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+   /* @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        getUserType = txtSome;
+    }*/
+
+    /*@Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+        outState.putString("STRING_VALUE", getUserType);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //letsCreateToast("On RestoreSaved Instance Method");
+
+        txtSome = savedInstanceState.getString("STRING_VALUE");
+
+        //txtView.setText(stringValue);
+    }*/
+
     @Override
     protected void onStart() {
         super.onStart();
 
-        /*if (mAuth.getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this, LandingPage.class));
-        }*/
     }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit.", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+   /* @Override
+    public void onBackPressed()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Exit");
+        builder.setMessage("Are You Sure?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }*/
 
     private void TabChangeMethods () {
 
-        myTabAccessorAdaptar = new TabAccessorAdaptar (getSupportFragmentManager(),2);
+        myTabAccessorAdaptar = new TabAccessorAdaptar (getSupportFragmentManager(),3);
         myViewPager.setAdapter(myTabAccessorAdaptar);
         myViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabsContent));
 
@@ -141,14 +245,23 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.manu_settings_options :
 
-                Toast.makeText(MainActivity.this, "Settings Selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Settings Selected", Toast.LENGTH_SHORT).show();
+
+                Intent intentAbt = new Intent(MainActivity.this, DevInfo.class);
+                startActivity(intentAbt);
+                finish();
 
                 break;
             case R.id.menu_log_out_options :
 
+
+
+                MyShare.ClearData(MainActivity.this);
                 signOut();
+
                 Toast.makeText(MainActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, LandingPage.class);
+
                 startActivity(intent);
                 finish();
 
@@ -160,5 +273,11 @@ public class MainActivity extends AppCompatActivity {
     private void signOut () {
 
         firebaseAuth.getInstance().signOut();
+
+        //SharedPreferences preferences =getSharedPreferences("Login", Context.MODE_PRIVATE);
+        //MyShare.writeLogin(MainActivity.this, null);
+       // editor.clear();
+        //editor.commit();
+        finish();
     }
 }

@@ -18,8 +18,8 @@
             </item>
             <item
                 android:id="@+id/manu_settings_options"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="Settings">
+                android:icon="@drawable/ic_people_outline_black_24dp"
+                android:title="Developer">
 
             </item>
             <item

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/replaceWithReqNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:padding="20dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shadow"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spnGrpList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:spinnerMode="dialog"
+            android:prompt="@string/spin_prompt"/>
+
+        <EditText
+            android:id="@+id/edtTextMessage"
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:minLines="6"
+            android:gravity="top|left"
+            android:maxLines="10"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="8dp"
+            android:textStyle="italic"
+            android:background="@color/dark_gray"/>
+
+        <Button
+            android:id="@+id/btnSendToStd"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@color/background_color"
+            android:text="Send" />
+    </LinearLayout>
+</RelativeLayout>

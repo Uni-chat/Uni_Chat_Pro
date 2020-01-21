@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.leonard.unichat.MyAdapter;
 import com.leonard.unichat.R;
 
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class Message extends Fragment {
     private String userAsType, userName;
     public static String groupName;
     public static String adminType;
+
+    private MyAdapter adapter;
 
 
     public Message() {
@@ -73,8 +76,10 @@ public class Message extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String currentGroupName = parent.getItemAtPosition(position).toString();
 
+                String currentGroupName = listOfGroups.get(position);
+                //String currentGroupName = parent.getItemAtPosition(position).toString();
+                //Toast.makeText(getContext(), ""+currentGroupName, Toast.LENGTH_SHORT).show();
                 // Intent and Passing Every Group Name to groupChat Activity
                 Intent groupChatIntent = new Intent(getContext(), GroupChat.class);
                 groupChatIntent.putExtra("GROUPNAME",currentGroupName);
@@ -95,8 +100,11 @@ public class Message extends Fragment {
         userAsType = MainActivity.smText;
 
         listView = (ListView) view.findViewById(R.id.groupNames);
-        arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listOfGroups);
-        listView.setAdapter(arrayAdapter);
+        adapter = new MyAdapter(getContext(), listOfGroups);
+        listView.setAdapter(adapter);
+
+        //arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listOfGroups);
+        //listView.setAdapter(arrayAdapter);
 
         firebaseAuth = FirebaseAuth.getInstance();
         currentUserUID = firebaseAuth.getCurrentUser().getUid();
@@ -129,13 +137,18 @@ public class Message extends Fragment {
 
                         if (adminType.equals("CSE_TC")) {
 
-                            getGrpName();
+                            //getGrpName(databaseRefAdmin);
+
+                            getGrpName(databaseRefAdmin);
 
                             groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Teachers");
 
                             retriveAndDisplayGroups(groupRef);
 
                         } else if (adminType.equals("CSE_AD")) {
+
+                            //getGrpName(databaseRefAdmin);
+                            getGrpName(databaseRefAdmin);
 
                             groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Students");
 
@@ -156,6 +169,8 @@ public class Message extends Fragment {
 
             Toast.makeText(getActivity(), userAsType, Toast.LENGTH_SHORT).show();
 
+            getGrpName(databaseRefTeacher);
+
             groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Teachers");
 
             retriveAndDisplayGroups(groupRef);
@@ -167,6 +182,8 @@ public class Message extends Fragment {
         else if (userAsType.equals("Student")) {
 
             Toast.makeText(getActivity(), userAsType, Toast.LENGTH_SHORT).show();
+
+            getGrpName(databaseRefStudent);
 
             groupRef = FirebaseDatabase.getInstance().getReference("Groups").child("Students");
 
@@ -226,7 +243,7 @@ public class Message extends Fragment {
 
                     // Getting USer Name
                     userName = dataSnapshot.child("NAME").getValue().toString();
-                    Toast.makeText(getActivity(), userName, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), userName, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -255,7 +272,7 @@ public class Message extends Fragment {
 
                 listOfGroups.clear();
                 listOfGroups.addAll(set);
-                arrayAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
 
             }
 
@@ -265,11 +282,45 @@ public class Message extends Fragment {
             }
         });
 
+      /*  groupRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChild("img")) {
+
+                    String text = dataSnapshot.child("img").getValue().toString();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
     }
 
-    private void getGrpName () {
+    private void getUserGroup (DatabaseReference refDb) {
 
-        databaseRefAdmin.child(currentUserUID).child("Chat").addValueEventListener(new ValueEventListener() {
+       refDb.child(currentUserUID).child("Chat").child("Groups").addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+           }
+       });
+    }
+
+    private void getGrpName (DatabaseReference userRef) {
+
+        userRef.child(currentUserUID).child("Chat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -282,7 +333,7 @@ public class Message extends Fragment {
 
                     //txtHide.setText(value);
 
-                    Toast.makeText(getContext(), groupName, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), groupName, Toast.LENGTH_SHORT).show();
 
 
 //                    frcall.onCallback(gpName);

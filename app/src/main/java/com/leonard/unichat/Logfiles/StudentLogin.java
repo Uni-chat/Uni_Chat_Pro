@@ -1,5 +1,6 @@
 package com.leonard.unichat.Logfiles;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -54,6 +55,8 @@ public class StudentLogin extends Fragment {
     private DatabaseReference checkUserRef;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private static FragmentManager fragmentManager;
+    private ProgressDialog pgDailog;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     public StudentLogin() {
         // Required empty public constructor
@@ -77,6 +80,12 @@ public class StudentLogin extends Fragment {
         forgtPass = (TextView) view.findViewById(R.id.forgtPass);
         signInValue = (Button) view.findViewById(R.id.signInValue);
 
+        pgDailog = new ProgressDialog(getContext());
+        pgDailog.setTitle("Processing...");
+        pgDailog.setMessage("Please wait...");
+        pgDailog.setCancelable(false);
+        pgDailog.setIndeterminate(true);
+
 
 // CheckBox implementation
         rememberChechBox = (CheckBox) view.findViewById(R.id.rememberChechBox);
@@ -93,13 +102,41 @@ public class StudentLogin extends Fragment {
         fragmentManager = getActivity().getSupportFragmentManager();
 
         firebaseAuth = firebaseAuth.getInstance();
+
+        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                if (firebaseAuth.getCurrentUser() != null) {
+
+                    try {
+
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.putExtra("US_REF", usType);
+                        startActivity(intent);
+
+                        Toast.makeText(getActivity(), "Log in Success.", Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+
+                    } catch (NullPointerException e) {
+
+
+                    }
+
+
+
+                }
+            }
+        };*/
         fragmentManager = getActivity().getSupportFragmentManager();
 
         signInValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
                 tcStudentToApp();
+                pgDailog.show();
             }
         });
 
@@ -116,6 +153,12 @@ public class StudentLogin extends Fragment {
         });
 
     }
+
+    /*@Override
+    public void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(mAuthListener);
+    }*/
 
     private void tcStudentToApp () {
 
@@ -148,6 +191,9 @@ public class StudentLogin extends Fragment {
 
                         firebaseDatabase = FirebaseDatabase.getInstance();
                         checkUserRef = firebaseDatabase.getReference("Users/Student");
+
+                        if (task.isSuccessful()) {
+
                         currentUserUID = firebaseAuth.getCurrentUser().getUid();
 
                         checkUserRef.child(currentUserUID).addValueEventListener(new ValueEventListener() {
@@ -161,8 +207,10 @@ public class StudentLogin extends Fragment {
 
                                         if (task.isSuccessful()) {
 
-                                            try {
 
+
+                                            try {
+                                                MyShare.writeLogin(getContext(), usType);
                                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                                 intent.putExtra("US_REF", usType);
                                                 startActivity(intent);
@@ -175,10 +223,15 @@ public class StudentLogin extends Fragment {
 
                                                 e.printStackTrace();
                                             }
+
+                                            pgDailog.dismiss();
+
                                         } else {
+                                            pgDailog.dismiss();
                                             Toast.makeText(getActivity(), "Log in Failed.", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
+                                        pgDailog.dismiss();
 
                                         FirebaseAuth.getInstance().signOut();
                                         Toast.makeText(getActivity(), "Your are not Registered as Student", Toast.LENGTH_SHORT).show();
@@ -186,6 +239,7 @@ public class StudentLogin extends Fragment {
                                     }
                                 } else {
 
+                                    pgDailog.dismiss();
                                     FirebaseAuth.getInstance().signOut();
                                     Toast.makeText(getActivity(), "Your are not Registered as Student", Toast.LENGTH_SHORT).show();
 
@@ -197,6 +251,11 @@ public class StudentLogin extends Fragment {
 
                             }
                         });
+
+                    } else {
+                            pgDailog.dismiss();
+                            Toast.makeText(getContext(), "Wrong Username or Password", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }

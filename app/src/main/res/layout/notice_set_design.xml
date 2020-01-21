@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linCallFor"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shadow"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/txtNtcDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_color2"
+            android:textColor="@color/white"
+            android:text="Hello"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:padding="3dp"/>
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/imgTcNotice"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/profile_image"
+            app:civ_border_color="@color/pale_violet_red"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/txtTcName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Success!"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="@color/indian_red"/>
+
+        <TextView
+            android:id="@+id/txtTcMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Success! Success! Success! Success! Success! Success! "
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/goldenrod"
+            android:gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

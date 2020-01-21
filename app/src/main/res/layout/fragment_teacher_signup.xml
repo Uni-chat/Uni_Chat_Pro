@@ -226,16 +226,6 @@
                 android:spinnerMode="dialog"
                 android:prompt="@string/spin_prompt"/>
 
-<!--            <ImageView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentEnd="true"-->
-<!--                android:layout_marginEnd="10dp"-->
-<!--                android:layout_marginRight="10dp"-->
-<!--                android:layout_centerVertical="true"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:src="@drawable/ic_arrow_drop_down_circle_black_24dp" />-->
-
         </RelativeLayout>
 
         <Button

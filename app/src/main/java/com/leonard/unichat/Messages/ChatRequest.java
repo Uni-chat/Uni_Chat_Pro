@@ -20,6 +20,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,23 +70,40 @@ public class ChatRequest extends Fragment {
         databaseRefStudent = FirebaseDatabase.getInstance().getReference().child("Users/Student");
         databaseRefAdmin = FirebaseDatabase.getInstance().getReference().child("Users/Admin");
 
-        // Chat Members Refrence
-        teacherGroupMemberRef = FirebaseDatabase.getInstance().getReference().child("Groups/Teachers")
-                .child(Message.groupName).child("Members");
-
-        studentGroupMemberRef = FirebaseDatabase.getInstance().getReference().child("Groups/Students")
-                .child(Message.groupName).child("Members");
-
-        // Chat Request Refrence
-        teacherGroupRequestRef = FirebaseDatabase.getInstance().getReference().child("Groups/Teachers")
-                .child(Message.groupName).child("Requests");
-
-        studentGroupRequestRef = FirebaseDatabase.getInstance().getReference().child("Groups/Students")
-                .child(Message.groupName).child("Requests");
+        if (MainActivity.smText.equals("Student") || MainActivity.smText.equals("Teacher")){
 
 
-        Toast.makeText(getContext(), Message.groupName, Toast.LENGTH_SHORT).show();
 
+        } else {
+
+            if(Message.groupName == null) {
+
+
+                Toast.makeText(getContext(), "Hey", Toast.LENGTH_SHORT).show();
+
+            } else {
+
+
+                // Chat Members Refrence
+                teacherGroupMemberRef = FirebaseDatabase.getInstance().getReference().child("Groups/Teachers")
+                        .child(Message.groupName).child("Members");
+
+                studentGroupMemberRef = FirebaseDatabase.getInstance().getReference().child("Groups/Students")
+                        .child(Message.groupName).child("Members");
+
+                // Chat Request Refrence
+                teacherGroupRequestRef = FirebaseDatabase.getInstance().getReference().child("Groups/Teachers")
+                        .child(Message.groupName).child("Requests");
+
+                studentGroupRequestRef = FirebaseDatabase.getInstance().getReference().child("Groups/Students")
+                        .child(Message.groupName).child("Requests");
+
+
+                Toast.makeText(getContext(), Message.groupName, Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
 
         return view;
     }
@@ -96,26 +114,35 @@ public class ChatRequest extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (Message.adminType.equals("CSE_TC")) {
+        if (MainActivity.smText.equals("Student") || MainActivity.smText.equals("Teacher")){
 
-            requestShowOnScreen(teacherGroupRequestRef, databaseRefTeacher, teacherGroupMemberRef);
+
+
+        } else {
+
+            if (Message.adminType.equals("CSE_TC")) {
+
+                requestShowOnScreen(teacherGroupRequestRef, databaseRefTeacher, teacherGroupMemberRef);
+            }
+            else if (Message.adminType.equals("CSE_AD")) {
+
+                requestShowOnScreen(studentGroupRequestRef, databaseRefStudent, studentGroupMemberRef);
+
+            }
         }
-        else if (Message.adminType.equals("CSE_AD")) {
-
-            requestShowOnScreen(studentGroupRequestRef, databaseRefStudent, studentGroupMemberRef);
-
-        }
-
-
-
     }
 
     private void requestShowOnScreen (final DatabaseReference grpRequest, final DatabaseReference userRef, final DatabaseReference grpMemRef) {
 
-        FirebaseRecyclerOptions <UsersModel> options = new FirebaseRecyclerOptions.Builder<UsersModel>()
+        if (Message.groupName == null) {
+
+        } else {
+
+
+        FirebaseRecyclerOptions<UsersModel> options = new FirebaseRecyclerOptions.Builder<UsersModel>()
                 .setQuery(grpRequest.child(Message.currentUserUID), UsersModel.class).build();
 
-        FirebaseRecyclerAdapter <UsersModel, RequestViewHolder>
+        FirebaseRecyclerAdapter<UsersModel, RequestViewHolder>
                 adapter = new FirebaseRecyclerAdapter<UsersModel, RequestViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final RequestViewHolder requestViewHolder, int i, @NonNull UsersModel usersModel) {
@@ -138,7 +165,7 @@ public class ChatRequest extends Fragment {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        if (dataSnapshot.hasChild("IMG_URL")){
+                                        if (dataSnapshot.hasChild("IMG_URL")) {
 
                                             final String requestUserImage = dataSnapshot.child("IMG_URL").getValue().toString();
                                             Picasso.get().load(requestUserImage).into(requestViewHolder.imgSetProfileImage);
@@ -162,6 +189,14 @@ public class ChatRequest extends Fragment {
                                                     public void onComplete(@NonNull Task<Void> task) {
 
                                                         if (task.isSuccessful()) {
+
+                                                            userRef.child(listUserId).child("Chat").child("Group Name").setValue(Message.groupName).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+
+                                                                    Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
 
                                                             grpRequest.child(Message.currentUserUID).child(listUserId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
@@ -226,6 +261,7 @@ public class ChatRequest extends Fragment {
         adapter.startListening();
 
 
+    }
     }
 
     public static class RequestViewHolder extends RecyclerView.ViewHolder {

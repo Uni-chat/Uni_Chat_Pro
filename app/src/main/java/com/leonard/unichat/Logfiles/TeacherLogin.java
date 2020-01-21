@@ -1,6 +1,7 @@
 package com.leonard.unichat.Logfiles;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -56,6 +57,9 @@ public class TeacherLogin extends Fragment {
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private static FragmentManager fragmentManager;
 
+    private ProgressDialog pgDailog;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     public TeacherLogin() {
         // Required empty public constructor
     }
@@ -64,6 +68,12 @@ public class TeacherLogin extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //super.onSaveInstanceState(savedInstanceState);
+
+        //savedInstanceState.putString("US_REF", usType);
+
+
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_teacher_login, container, false);
 
@@ -72,12 +82,32 @@ public class TeacherLogin extends Fragment {
         return view;
     }
 
+   /* @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putBoolean("MyBoolean", true);
+        savedInstanceState.putDouble("myDouble", 1.9);
+        savedInstanceState.putInt("MyInt", 1);
+        savedInstanceState.putString("MyString", "Welcome back to Android");
+        // etc.
+    }*/
+
     private void initViews () {
 
         edtTcLoginEmail = (AutoCompleteTextView) view.findViewById(R.id.edtTcLoginEmail);
         edtTcLoginPass = (AutoCompleteTextView) view.findViewById(R.id.edtTcLoginPass);
         forgtPass = (TextView) view.findViewById(R.id.forgtPass);
         signInValue = (Button) view.findViewById(R.id.signInValue);
+
+
+        pgDailog = new ProgressDialog(getContext());
+        pgDailog.setTitle("Processing...");
+        pgDailog.setMessage("Please wait...");
+        pgDailog.setCancelable(false);
+        pgDailog.setIndeterminate(true);
 
         // CheckBox implementation
         rememberChechBox = (CheckBox) view.findViewById(R.id.rememberChechBox);
@@ -93,13 +123,41 @@ public class TeacherLogin extends Fragment {
 
         firebaseAuth = firebaseAuth.getInstance();
 
+       /* mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                if (firebaseAuth.getCurrentUser() != null) {
+
+                    try {
+
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.putExtra("US_REF", usType);
+                        startActivity(intent);
+
+                        Toast.makeText(getActivity(), "Log in Success.", Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+
+                    } catch (NullPointerException e) {
+
+
+                    }
+
+
+
+                }
+            }
+        };*/
+
         fragmentManager = getActivity().getSupportFragmentManager();
 
         signInValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
                 tcLoginToApp();
+                pgDailog.show();
             }
         });
 
@@ -121,6 +179,12 @@ public class TeacherLogin extends Fragment {
 
     }
 
+   /* @Override
+    public void onStart() {
+        super.onStart();
+
+        firebaseAuth.addAuthStateListener(mAuthListener);
+    }*/
 
     private void tcLoginToApp () {
 
@@ -154,57 +218,82 @@ public class TeacherLogin extends Fragment {
 
                         firebaseDatabase = FirebaseDatabase.getInstance();
                         checkUserRef = firebaseDatabase.getReference("Users/Teachers");
-                        currentUserUID = firebaseAuth.getCurrentUser().getUid();
 
-                        checkUserRef.child(currentUserUID).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
+                        if (task.isSuccessful()) {
 
-                                    userType = dataSnapshot.child("USER_TYPE").getValue().toString();
+                            currentUserUID = firebaseAuth.getCurrentUser().getUid();
+                            checkUserRef.child(currentUserUID).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
 
-                                    if (userType.equals(usType)) {
+                                        userType = dataSnapshot.child("USER_TYPE").getValue().toString();
 
-                                        if (task.isSuccessful()) {
+                                        if (userType.equals(usType)) {
 
-
-                                            try {
-
-                                                Intent intent = new Intent(getContext(), MainActivity.class);
-                                                intent.putExtra("US_REF", usType);
-                                                startActivity(intent);
-
-                                                Toast.makeText(getActivity(), "Log in Success.", Toast.LENGTH_SHORT).show();
-                                                getActivity().finish();
+                                            if (task.isSuccessful()) {
 
 
-                                            } catch (Exception e) {
 
-                                                e.printStackTrace();
+
+                                                try {
+                                                    MyShare.writeLogin(getContext(), usType);
+                                                    Intent intent = new Intent(getContext(), MainActivity.class);
+                                                    intent.putExtra("US_REF", usType);
+
+
+                                                    startActivity(intent);
+
+                                                    Toast.makeText(getActivity(), "Log in Success.", Toast.LENGTH_SHORT).show();
+                                                    getActivity().finish();
+
+
+                                                } catch (Exception e) {
+
+                                                    e.printStackTrace();
+                                                }
+
+                                                pgDailog.dismiss();
+
+                                            } else {
+                                                pgDailog.dismiss();
+                                                Toast.makeText(getActivity(), "Log in Failed.", Toast.LENGTH_SHORT).show();
                                             }
-
                                         } else {
-                                            Toast.makeText(getActivity(), "Log in Failed.", Toast.LENGTH_SHORT).show();
+
+                                            pgDailog.dismiss();
+                                            FirebaseAuth.getInstance().signOut();
+                                            Toast.makeText(getActivity(), "Your are not Registered as Teacher", Toast.LENGTH_SHORT).show();
+
                                         }
                                     } else {
 
+                                        pgDailog.dismiss();
                                         FirebaseAuth.getInstance().signOut();
                                         Toast.makeText(getActivity(), "Your are not Registered as Teacher", Toast.LENGTH_SHORT).show();
 
                                     }
-                                } else {
+                                }
 
-                                    FirebaseAuth.getInstance().signOut();
-                                    Toast.makeText(getActivity(), "Your are not Registered as Teacher", Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                 }
-                            }
+                            });
+                        } else {
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            pgDailog.dismiss();
+                            Toast.makeText(getContext(), "Wrong Username or Password", Toast.LENGTH_SHORT).show();
+                        }
 
-                            }
-                        });
+
+
+
+
+
+
+
+
                     }
                 });
     }

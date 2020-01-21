@@ -82,7 +82,9 @@ public class SplashToGo extends Fragment {
             @Override
             public void run() {
                 //this repeats every 100 ms
-                if (i<98){
+                if (i<98) {
+
+                    if (getActivity() != null) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -98,6 +100,8 @@ public class SplashToGo extends Fragment {
                         }
 
                     });
+
+                }
                     i=i+3;
                 }else{
                     //closing the timer

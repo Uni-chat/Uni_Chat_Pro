@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -39,7 +40,9 @@ public class LandingTwo extends Fragment {
     private Switch switchTeacher, switchStudentAdmin, switchStudent;
     private static FragmentManager fragmentManager;
     public static String deptType;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
+
+
 
     public LandingTwo() {
         // Required empty public constructor
@@ -62,7 +65,7 @@ public class LandingTwo extends Fragment {
 
     private void initViews () {
 
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         btnGlobalSignup = (Button) view.findViewById(R.id.btnGlobalSignUp);
         btnGlobalSignin = (Button) view.findViewById(R.id.btnGlobalSignIn);
@@ -96,6 +99,20 @@ public class LandingTwo extends Fragment {
             }
         });
 
+        if(firebaseAuth.getCurrentUser() !=null){
+
+            String usType = MyShare.readLogin(getContext());
+
+            if(usType != null){
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.putExtra("US_REF", usType);
+                startActivity(intent);
+
+                //Toast.makeText(getActivity(), "Log in Success.", Toast.LENGTH_SHORT).show();
+                // getActivity().finish();
+                //getActivity().finish();
+            }
+        }
     }
 
 
@@ -292,6 +309,8 @@ public class LandingTwo extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+       // firebaseAuth.addAuthStateListener(mAuthListener);
 
         /*if (mAuth.getCurrentUser() != null) {
             getActivity().finish();
