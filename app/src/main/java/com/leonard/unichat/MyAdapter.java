@@ -15,11 +15,11 @@ import java.util.ArrayList;
 public class MyAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<String> arrayList;
+    private ArrayList<IconModel> arrayList;
     private TextView txtGrpNameMessage;
     private CircularImageView imgGroupView;
 
-    public MyAdapter(Context context, ArrayList<String> arrayList) {
+    public MyAdapter(Context context, ArrayList<IconModel> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
@@ -40,8 +40,10 @@ public class MyAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.group_view_design, parent, false);
         txtGrpNameMessage = convertView.findViewById(R.id.txtGrpNameMessage);
         imgGroupView = convertView.findViewById(R.id.imgGroupView);
-        txtGrpNameMessage.setText(arrayList.get(position));
-        //Picasso.get().load().placeholder(R.drawable.profile_image).into(imgGroupView);
+        txtGrpNameMessage.setText(arrayList.get(position).getKey());
+        if(arrayList.get(position).getKey() !=null){
+            Picasso.get().load(arrayList.get(position).getImg()).placeholder(R.drawable.profile_image).into(imgGroupView);
+        }
         return convertView;
     }
 }

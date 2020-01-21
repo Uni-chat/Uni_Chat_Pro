@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.leonard.unichat.IconModel;
 import com.leonard.unichat.MyAdapter;
 import com.leonard.unichat.R;
 
@@ -38,7 +40,8 @@ public class Message extends Fragment {
     private String usType = "Teacher";
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<String> listOfGroups = new ArrayList<>();
+    //private ArrayList<String> listOfGroups = new ArrayList<>();
+    private ArrayList<IconModel> listOfGroups = new ArrayList<>();
 
     public static String currentUserUID;
     private FirebaseAuth firebaseAuth;
@@ -77,7 +80,7 @@ public class Message extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                String currentGroupName = listOfGroups.get(position);
+                String currentGroupName = listOfGroups.get(position).getKey();
                 //String currentGroupName = parent.getItemAtPosition(position).toString();
                 //Toast.makeText(getContext(), ""+currentGroupName, Toast.LENGTH_SHORT).show();
                 // Intent and Passing Every Group Name to groupChat Activity
@@ -133,7 +136,7 @@ public class Message extends Fragment {
 
                         // Getting USer Name
                         adminType = dataSnapshot.child("ADMINISTRATION").getValue().toString();
-                        Toast.makeText(getActivity(), adminType, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),""+ adminType, Toast.LENGTH_SHORT).show();
 
                         if (adminType.equals("CSE_TC")) {
 
@@ -260,18 +263,27 @@ public class Message extends Fragment {
         groupRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                Set<String> set = new HashSet<>();
-                Iterator iterator = dataSnapshot.getChildren().iterator();
-
-                while (iterator.hasNext()) {
-
-                    set.add(((DataSnapshot)iterator.next()).getKey());
+                listOfGroups.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    //IconModel value = snapshot.getValue(IconModel.class);
+                    String value = snapshot.child("img").getValue(String.class);
+                    String key = snapshot.getKey();
+                    listOfGroups.add(new IconModel(value, key));
+                    Toast.makeText(getContext(), key+" Error : "+value, Toast.LENGTH_SHORT).show();
                 }
 
-                listOfGroups.clear();
-                listOfGroups.addAll(set);
+
+                //Set<String> set = new HashSet<>();
+                //Iterator iterator = dataSnapshot.getChildren().iterator();
+
+                //while (iterator.hasNext()) {
+
+                  //  set.add(((DataSnapshot)iterator.next()).getKey());
+                   // String img = dataSnapshot.child("img").getValue(String.class);
+               // }
+
+                //listOfGroups.clear();
+                //listOfGroups.addAll(set);
                 adapter.notifyDataSetChanged();
 
             }
@@ -281,6 +293,8 @@ public class Message extends Fragment {
 
             }
         });
+
+        //https://www.pastefile.com/DN7fdt
 
       /*  groupRef.addValueEventListener(new ValueEventListener() {
             @Override
